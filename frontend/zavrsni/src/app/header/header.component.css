@@ -1,0 +1,28 @@
+.account-icon {
+    transform: scale(1.5);
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.title {
+    margin-left: 70px;
+    color: black;
+    font-family: 'Bebas Neue', cursive;
+    margin-top:5px;
+    font-size: 30px;
+    letter-spacing: 8px;
+    font-weight: bold;
+}
+/* 
+.flexSpaceBetween {
+    justify-content: space-between;
+    width: 100% !important;
+} */
+
+mat-toolbar {
+    background-color: rgba(145, 155, 159, 1)
+}
+
+body {
+    background-color: black;
+}

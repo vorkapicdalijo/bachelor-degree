@@ -1,0 +1,52 @@
+.example-card {
+    min-width: 320px;
+    max-width: 320px;
+    min-height: 200px;
+    padding: 16px;
+    margin: 0px;
+  }
+
+
+#bottom {
+  position:absolute;                 
+  bottom:10px;                         
+  right:20px; 
+}
+.image-pull {
+  margin-top:50px;
+  margin-left: 100px;
+  transform: scale(3.0);
+  display: block;
+  width: 20%;
+}
+
+.icon:hover {
+  cursor: pointer;
+  transition: all .3s;
+  color: #bebebe;
+}
+
+#container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.grid-container {
+  margin-top:20px;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-items: center;
+  grid-gap: 15px;
+}
+
+.grid-item {
+  min-width: 0;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

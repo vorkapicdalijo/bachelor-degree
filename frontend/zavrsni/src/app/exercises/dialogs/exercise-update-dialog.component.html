@@ -1,0 +1,23 @@
+<h1 mat-dialog-title style="text-align: center;">Update exercise</h1>
+<div mat-dialog-content>
+    <div class="inner-div">
+        <mat-label>Exercise name</mat-label>
+        <mat-form-field appearance="outline">
+            <input id="name" name="name" required matInput [ngModel] ="data.name" (ngModelChange)="newData.name = $event">
+        </mat-form-field>
+        <mat-label>Description</mat-label>
+        <mat-form-field appearance="outline">
+            <textarea matInput [ngModel] ="data.description" (ngModelChange)="newData.description = $event"></textarea>
+        </mat-form-field>
+        <mat-label>Image URL</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput [ngModel] ="data.imageurl" (ngModelChange)="newData.imageurl= $event">
+            <!-- <mat-error *ngIf="imageUrl?.invalid">Enter valid image URL</mat-error> -->
+        </mat-form-field>
+        <img src={{data.imageurl}}  [hidden]="invalidImage(data.imageurl)" class="exercise-image"/>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="newData" color="primary" [disabled]="newData.name == ''" cdkFocusInitial>Submit</button>
+</div>

@@ -1,0 +1,59 @@
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';/* You can add global styles to this file, and also import other style files */
+
+
+
+html, body { height: 100%; }
+html { background-color: gray; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.custom-dialog-container .mat-dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.custom-delete-dialog-container .mat-dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.custom-dialog-container .mat-dialog-actions {
+    justify-content: center;
+}
+
+.mat-tooltip.description-tooltip {
+    max-width: unset !important;
+    text-align: center;
+    width: 300px;
+    white-space: pre-wrap;
+    font-size: 14px;
+  }
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: white;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: black;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #050738;
+}

@@ -1,0 +1,10 @@
+.inner-div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.exercise-image {
+    width:300px;
+    height:200px;
+}

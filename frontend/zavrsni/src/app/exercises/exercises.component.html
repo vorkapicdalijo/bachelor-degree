@@ -1,0 +1,53 @@
+<div class="title-container">
+    <h1 style="text-align: center; color:black; text-decoration: underline; letter-spacing: 5px;">Exercises</h1>
+    <button mat-raised-button (click)="openDialog()">Create new exercise</button>
+</div>
+<mat-divider inset style="margin-top: 15px;"></mat-divider>
+<div id="container" class="grid-container">
+    <ng-container *ngFor="let exercise of exercises">
+            <mat-card class="example-card">
+                <mat-card-title style="text-align: center;">{{exercise.name}}</mat-card-title>
+                <mat-divider inset style="margin-bottom: 10px;"></mat-divider>
+                <mat-card-content>
+                    <p style="white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis; text-align: center;"
+                    matTooltip={{exercise.description}} 
+                    matTooltipClass="description-tooltip">{{exercise.description}}</p>
+                </mat-card-content>
+                <mat-divider inset></mat-divider>
+                <img src="../../assets/img/abs.svg" alt="Pullups" class="image-pull" />
+                <mat-card-actions id="bottom">
+                    <mat-icon 
+                        matTooltip="Edit" 
+                        matTooltipPosition="above"
+                          class="icon" (click) = "openUpdateDialog(exercise)">edit_note</mat-icon>
+                    <mat-icon 
+                        matTooltip="Delete"
+                        matTooltipPosition="above"
+                            class="icon" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever</mat-icon>
+                </mat-card-actions>
+            </mat-card>
+    </ng-container>
+</div>
+<!-- <div *ngFor="let ex of exercises" class="grid-container">
+    <div>
+        <mat-card class="example-card">
+            <mat-card-title-group>
+            <mat-card-title>{{ex.name}}</mat-card-title>
+            <mat-card-subtitle>{{ex.id}}</mat-card-subtitle>
+            <img style="height: 200px; width: 300px;" src={{ex.imageUrl}} >
+            </mat-card-title-group>
+            <mat-card-content>
+            {{ex.description}}
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div> -->
+
+<div *ngIf="passedValues">
+    {{ passedValues | json }}
+</div>
+<!-- <div *ngIf="updatedValues">
+   {{ updatedValues | json}}
+</div> -->
