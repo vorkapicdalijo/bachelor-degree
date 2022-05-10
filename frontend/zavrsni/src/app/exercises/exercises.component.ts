@@ -53,6 +53,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     this.appService.getExercises();
 
     this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
+      console.log(exercises);
       this.exercises = exercises;
     })
   }
