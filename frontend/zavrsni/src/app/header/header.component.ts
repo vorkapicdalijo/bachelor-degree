@@ -19,13 +19,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     
+    //this.isAuthenticated = this.authService.isLoggedIn();
+
     this.authService.user.subscribe(user => {
-      this.isAuthenticated = !!user
-      if(this.isAuthenticated)
+      if(user != null){
         this.user = JSON.parse(localStorage.getItem('user') || '{}');
-        console.log(this.user);
         this.userName = this.user.user_name;
         this.userRole = this.user.role;
+
+        this.isAuthenticated = true;
+      }
+      else {
+        this.isAuthenticated = false;
+      }
+      
     })
   }
 

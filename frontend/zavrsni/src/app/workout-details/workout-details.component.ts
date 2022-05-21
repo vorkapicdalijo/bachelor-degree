@@ -2,9 +2,17 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { Exercise } from '../models/exercise';
 import { Workout } from '../models/workout';
 import { AppService } from '../services/app.service';
 
+
+export interface ExerciseW {
+  name: string;
+  weight: number;
+  sets: number;
+  reps: number;
+}
 @Component({
   selector: 'app-workout-details',
   templateUrl: './workout-details.component.html',
@@ -17,7 +25,12 @@ export class WorkoutDetailsComponent implements OnInit {
   dataSource:any = [];
   $sub: Subscription;
 
-  workoutToBeAdded: Workout;
+  workoutToBeAdded: Workout
+
+  name: string;
+  duration: number;
+  complexity: string;
+  user_id: number
 
   constructor(private titleService: Title, private appService: AppService, public dialog: MatDialog,) {
     this.titleService.setTitle("Workouts");
@@ -34,13 +47,20 @@ export class WorkoutDetailsComponent implements OnInit {
   openAddDialog() {
     const dialogRef = this.dialog.open(WorkoutAddDialog, {
       panelClass: 'custom-dialog-container',
-      width: '400px',
+      width: '800px',
+      height: '900px',
+      position: {top:'50px'},
+      disableClose: true,
       data: {
-             name: this.workoutToBeAdded.name,
-             duration: this.workoutToBeAdded.duration,
-             complexity: this.workoutToBeAdded.complexity,
-             user_id: this.workoutToBeAdded.user_id},
+             name: this.name,
+             duration: this.duration,
+             complexity: this.complexity,
+             user_id: this.user_id},
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    })
   }
 
 }
@@ -52,8 +72,18 @@ export class WorkoutDetailsComponent implements OnInit {
 })
 export class WorkoutAddDialog {
 
+  exercisesLoaded: Exercise[] = []
+
+  exercise: ExerciseW;
+
+  namesTest = ['ivek', 'bivek', 'girek'];
+
   constructor(
     public dialogRef: MatDialogRef<WorkoutAddDialog>,
     @Inject(MAT_DIALOG_DATA) public data: Workout,
   ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

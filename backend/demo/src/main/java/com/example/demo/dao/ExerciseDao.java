@@ -11,9 +11,11 @@ public interface ExerciseDao {
 
     List<Exercise> selectAllExercise();
 
-    Optional<Exercise> selectExerciseById (int id);
+    Optional<Exercise> selectExerciseById(int id);
 
     int deleteExerciseById(int id);
 
     int updateExerciseById(int id, Exercise exercise);
+
+    List<Exercise> selectExercisesByUserId(int user_id);
 }

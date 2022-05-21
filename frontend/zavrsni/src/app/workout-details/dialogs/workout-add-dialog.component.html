@@ -1,0 +1,255 @@
+<h3 mat-dialog-title style="text-align: center;">CREATE NEW WORKOUT</h3>
+<div mat-dialog-content>
+    <div class="workout-div">
+        <mat-form-field appearance="outline" class="workout-mat-input-wrapper">
+            <mat-error *ngIf="!name.valid && data.name">Workouit name already exists</mat-error>
+            <mat-label>Workout name</mat-label>
+            <input id="name"  name="name" required matInput [(ngModel)]="data.name" #name="ngModel">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="workout-mat-input-wrapper">
+            <mat-label>Complexity</mat-label>
+            <mat-select required>
+                <mat-option value="easy">Easy</mat-option>
+                <mat-option value="medium">Medium</mat-option>
+                <mat-option value="hard">Hard</mat-option>
+                <mat-option value="expert">Expert</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="workout-mat-input-wrapper">
+            <mat-label>Duration (minutes)</mat-label>
+            <input type="number" id="duration"  name="duration" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+        </mat-form-field>
+
+        <mat-divider style="margin-bottom: 10px;"></mat-divider>
+
+        <h1 mat-dialog-title style="text-align:center;">ADD EXERCISES</h1>
+    </div>
+        <div class="exercises">
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option *ngFor="let ime of namesTest" [value]="ime">{{ime}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+            <div class="exercise">
+                <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
+                    <mat-label>Exercise</mat-label>
+                    <mat-select required>
+                        <mat-option value="easy">Easy</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="hard">Hard</mat-option>
+                        <mat-option value="expert">Expert</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
+                    <mat-label>Weight</mat-label>
+                    <input type="number" id="weight"  name="weight" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                    <span matSuffix>kg</span>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Sets</mat-label>
+                    <input type="number" id="sets"  name="sets" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="exercise-number-mat-input-wrapper">
+                    <mat-label>Reps</mat-label>
+                    <input type="number" id="reps"  name="reps" required matInput [(ngModel)]="data.duration" #duration="ngModel">
+                </mat-form-field>
+            </div>
+
+        </div>
+    <!-- </div> -->
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="data" color="primary" [disabled]="!name.valid || !duration.valid" cdkFocusInitial>Submit</button>
+</div>

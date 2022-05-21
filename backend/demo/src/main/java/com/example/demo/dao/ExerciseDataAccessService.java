@@ -1,14 +1,12 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Exercise;
-import com.example.demo.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository("postgres_exercise")
 public class ExerciseDataAccessService implements ExerciseDao{
@@ -23,31 +21,49 @@ public class ExerciseDataAccessService implements ExerciseDao{
 
     @Override
     public int insertExercise(Exercise exercise) {
-        final String sql ="INSERT INTO exercise (name, imageurl, description) VALUES (?,?,?)";
+        final String sql ="INSERT INTO exercise (name, imageurl, description, user_id) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql,
                 exercise.getName(),
-                exercise.getImageurl(),
-                exercise.getDescription());
+                exercise.getImageUrl(),
+                exercise.getDescription(),
+                exercise.getUser_id());
         return 0;
     }
 
     @Override
     public List<Exercise> selectAllExercise() {
-        final String sql = "SELECT exercise_id, name, imageurl, description from exercise ORDER BY exercise_id ASC";
+        final String sql = "SELECT exercise_id, name, imageurl, description, user_id from exercise ORDER BY exercise_id ASC";
         List<Exercise> exercises = jdbcTemplate.query(sql, (resultSet, i) -> {
             return new Exercise(
                     Integer.parseInt(resultSet.getString("exercise_id")),
                     resultSet.getString("name"),
                     resultSet.getString("imageurl"),
-                    resultSet.getString("description"));
+                    resultSet.getString("description"),
+                    Integer.parseInt(resultSet.getString("user_id")));
         });
         //return List.of(new Person(UUID.randomUUID(), "FROM POSTGRES"));
         return exercises;
     }
 
     @Override
+    public List<Exercise> selectExercisesByUserId(int user_id) {
+        final String sql = "SELECT exercise_id, name, imageurl, description, user_id FROM exercise WHERE user_id = ?";
+        List<Exercise> exercises = jdbcTemplate.query(sql,
+                new Object[]{user_id},
+                (resultSet,i) -> {
+                    return new Exercise(
+                            Integer.parseInt(resultSet.getString("exercise_id")),
+                            resultSet.getString("name"),
+                            resultSet.getString("imageurl"),
+                            resultSet.getString("description"),
+                            Integer.parseInt(resultSet.getString("user_id")));
+                });
+        return exercises;
+    }
+
+    @Override
     public Optional<Exercise> selectExerciseById(int id) {
-        final String sql = "SELECT exercise_id, name, imageurl, description FROM exercise WHERE exercise_id = ?";
+        final String sql = "SELECT exercise_id, name, imageurl, description, user_id FROM exercise WHERE exercise_id = ?";
 
         Exercise exercise = jdbcTemplate.queryForObject(
                 sql,
@@ -57,7 +73,8 @@ public class ExerciseDataAccessService implements ExerciseDao{
                             Integer.parseInt(resultSet.getString("exercise_id")),
                             resultSet.getString("name"),
                             resultSet.getString("imageurl"),
-                            resultSet.getString("description"));
+                            resultSet.getString("description"),
+                            Integer.parseInt(resultSet.getString("user_id")));
                 });
 
         return Optional.ofNullable(exercise);
@@ -73,7 +90,7 @@ public class ExerciseDataAccessService implements ExerciseDao{
 
     @Override
     public int updateExerciseById(int id, Exercise exercise) {
-        final String sql = "UPDATE exercise SET name='"+exercise.getName()+"', imageurl='"+exercise.getImageurl()+"', description='"+exercise.getDescription()+"' WHERE exercise_id = ?";
+        final String sql = "UPDATE exercise SET name='"+exercise.getName()+"', imageurl='"+exercise.getImageUrl()+"', description='"+exercise.getDescription()+"' WHERE exercise_id = ?";
 
         jdbcTemplate.update(sql, id);
 

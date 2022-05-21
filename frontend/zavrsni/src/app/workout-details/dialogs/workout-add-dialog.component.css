@@ -1,0 +1,37 @@
+.workout-div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    height: 100%;
+}
+
+.exercises {
+    overflow-y: auto;
+    height: 300px;
+}
+
+::ng-deep .workout-mat-input-wrapper{
+    width: 250px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+::ng-deep .exercise-mat-input-wrapper{
+    width:150px !important;
+    margin-right: 10px;
+  }
+
+::ng-deep .exercise-number-mat-input-wrapper{
+    width: 75px !important;
+    margin-right: 10px;
+}
+
+::ng-deep .exercise-weight-mat-input-wrapper{
+    width: 125px !important;
+    margin-right: 10px;
+}
+
+::ng-deep .mat-dialog-content {
+    overflow-y: hidden !important;
+}

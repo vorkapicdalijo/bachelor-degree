@@ -1,10 +1,23 @@
+<h1 style="text-align: center; color:black; text-decoration: underline; letter-spacing: 5px;">Exercises</h1>
 <div class="title-container">
-    <h1 style="text-align: center; color:black; text-decoration: underline; letter-spacing: 5px;">Exercises</h1>
-    <button mat-raised-button (click)="openDialog()">Create new exercise</button>
+
+    <button mat-raised-button (click)="openDialog()" style="margin-left: 15px;">Create new exercise</button>
+
+    <mat-form-field appearance="standard" style="margin-left:30px;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+
 </div>
 <mat-divider inset style="margin-top: 15px;"></mat-divider>
-<div id="container" class="grid-container">
-    <ng-container *ngFor="let exercise of exercises">
+
+
+
+<div id="container" class="grid-container" >
+    <div [hidden]="!isLoading">
+        <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
+    </div>
+    <div *ngFor="let exercise of this.dataSource.filteredData" [hidden]="isLoading || error">
             <mat-card class="example-card">
                 <mat-card-title style="text-align: center;">{{exercise.name}}</mat-card-title>
                 <mat-divider inset style="margin-bottom: 10px;"></mat-divider>
@@ -28,7 +41,10 @@
                             class="icon" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever</mat-icon>
                 </mat-card-actions>
             </mat-card>
-    </ng-container>
+    </div>
+    <div *ngIf="error">
+        <h1>ERROR: Exercise with that name already exists</h1>
+    </div>
 </div>
 <!-- <div *ngFor="let ex of exercises" class="grid-container">
     <div>
@@ -45,7 +61,7 @@
     </div>
 </div> -->
 
-<div *ngIf="passedValues">
+<div [hidden]="true">
     {{ passedValues | json }}
 </div>
 <!-- <div *ngIf="updatedValues">

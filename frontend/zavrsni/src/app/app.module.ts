@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { WorkoutDetailsComponent } from './workout-details/workout-details.component';
+import { WorkoutAddDialog, WorkoutDetailsComponent } from './workout-details/workout-details.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -44,6 +44,7 @@ import { NameValidatorDirective } from './validators/name-validator.directive';
     ExerciseDeleteDialog,
     ExerciseUpdateDialog,
     LoginDialog,
+    WorkoutAddDialog,
     NameValidatorDirective
     
   ],

@@ -11,21 +11,25 @@ public class Exercise {
     @NotBlank
     private final String name;
 
-    private final String imageurl;
+    private final String imageUrl;
 
     private final String description;
+
+    private final int user_id;
 
 
     public Exercise(
             @JsonProperty("exercise_id") int exercise_id,
             @JsonProperty("name") String name,
             @JsonProperty("imageurl") String imageUrl,
-            @JsonProperty("description") String description)
+            @JsonProperty("description") String description,
+            @JsonProperty("user_id") int user_id)
     {
         this.exercise_id = exercise_id;
         this.name = name;
-        this.imageurl = imageUrl;
+        this.imageUrl = imageUrl;
         this.description = description;
+        this.user_id = user_id;
     }
 
     public int getExercise_id() {
@@ -34,11 +38,14 @@ public class Exercise {
     public String getName() {
         return name;
     }
-    public String getImageurl() {
-        return imageurl;
+    public String getImageUrl() {
+        return imageUrl;
     }
     public String getDescription() {
         return description;
+    }
+    public int getUser_id() {
+        return user_id;
     }
 
 }

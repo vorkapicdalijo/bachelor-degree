@@ -34,4 +34,5 @@ public class ExerciseService {
     public int updateExercise(int id, Exercise newExercise) {
         return exerciseDao.updateExerciseById(id, newExercise);
     }
+    public List<Exercise> getAllUserExercises(int user_id) { return exerciseDao.selectExercisesByUserId(user_id); }
 }

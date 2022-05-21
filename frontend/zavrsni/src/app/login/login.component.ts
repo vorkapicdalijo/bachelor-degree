@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
 })
 export class LoginDialog {
   error:string = '';
+  hide = true;
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),

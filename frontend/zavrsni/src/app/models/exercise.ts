@@ -3,4 +3,5 @@ export class Exercise {
     name: string;
     imageurl: string;
     description: string;
+    user_id: number;
 }
