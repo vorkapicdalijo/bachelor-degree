@@ -9,13 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'workouts', component: WorkoutDetailsComponent },
-  { path: 'exercises', component: ExercisesComponent},
-  { path: 'schedule', component: ScheduleComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'workouts', component: WorkoutDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'exercises', component: ExercisesComponent, canActivate: [AuthGuard]},
+  { path: 'schedule', component: ScheduleComponent,canActivate: [AuthGuard] },
+  { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full'},

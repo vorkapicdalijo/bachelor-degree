@@ -17,17 +17,22 @@ public class User {
     @NotBlank
     private final String password;
 
+    @NotBlank
+    private final String role;
+
 
     public User(
             @JsonProperty("user_id") int user_id,
             @JsonProperty("name") String name,
             @JsonProperty("email") String email,
-            @JsonProperty("password") String password)
+            @JsonProperty("password") String password,
+            @JsonProperty("role") String role)
     {
         this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public int getUser_id() {
@@ -41,6 +46,9 @@ public class User {
     }
     public String getPassword() {
         return password;
+    }
+    public String getRole() {
+        return role;
     }
 
 }

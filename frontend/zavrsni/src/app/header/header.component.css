@@ -26,3 +26,30 @@ mat-toolbar {
 body {
     background-color: black;
 }
+
+.icon-logout {
+    margin-right: 20px;
+    transform: rotate(180deg) scale(1.3);
+}
+.icon-logout:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+  }
+
+.icon-login {
+    margin-right: 10px;
+    transform: scale(1.3);
+}
+.icon-login:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+}
+
+.avatar {
+    cursor: pointer;
+}
+::ng-deep .avatar-content:hover {
+    background-color:darkblue !important;
+}

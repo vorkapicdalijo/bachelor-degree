@@ -4,22 +4,27 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service @Transactional
 public class UserService {
 
     private final UserDao userDao;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserService(@Qualifier("postgres_user") UserDao userDao) {
+    public UserService(@Qualifier("postgres_user") UserDao userDao, UserDetailsService userDetailsService) {
         this.userDao = userDao;
+        this.userDetailsService = userDetailsService;
     }
 
-    public int addUser(User user) {
+    public User addUser(User user) {
         return userDao.insertUser(user);
     }
     public List<User> getAllUser() {
@@ -34,4 +39,6 @@ public class UserService {
     public int updateUser(int id, User newUser) {
         return userDao.updateUserById(id, newUser);
     }
+    public UserDetails findUser(String email) { return userDetailsService.loadUserByUsername(email); }
+    public User getUser(String username) {return userDao.getUser(username); }
 }
