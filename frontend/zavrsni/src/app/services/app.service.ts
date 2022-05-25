@@ -21,33 +21,37 @@ export class AppService {
 
 
   getExercises() {
-   return this.http.get<Exercise[]>(environment.baseUrl + environment.getExercises).subscribe(exercises => {
+   return this.http.get<Exercise[]>(environment.baseUrl + environment.exercises).subscribe(exercises => {
      this.loadedExercisesSub.next(exercises);
      this.exercises = exercises;
    })
   }
   getWorkouts() {
-    this.$fetchSub = this.http.get<Workout[]>(environment.baseUrl + environment.getWorkouts)
+    this.$fetchSub = this.http.get<Workout[]>(environment.baseUrl + environment.workouts)
       .subscribe(workouts => {
           this.loadedWorkoutsSub.next(workouts);
       })
   }
 
   deleteExercise(id:number) {
-    return this.http.delete<Exercise>(environment.baseUrl+environment.getExercises+`${id}`)
+    return this.http.delete<Exercise>(environment.baseUrl+environment.exercises+`${id}`)
      
   }
   updateExercise(id:number, exercise: Exercise) {
     var body = exercise;
-    return this.http.put<Exercise>(environment.baseUrl+environment.getExercises+`${id}`,
+    return this.http.put<Exercise>(environment.baseUrl+environment.exercises+`${id}`,
         body)
   }
 
   insertExercise(exercise: Exercise) {
     var body = exercise;
-    console.log(body);
-    return this.http.post<Exercise>(environment.baseUrl+environment.getExercises, body )
+    return this.http.post<Exercise>(environment.baseUrl+environment.exercises, body )
       
+  }
+
+  insertWorkout(workout: Workout) {
+    var body = workout;
+    return this.http.post<Workout>(environment.baseUrl+environment.workouts, body )
   }
 
 

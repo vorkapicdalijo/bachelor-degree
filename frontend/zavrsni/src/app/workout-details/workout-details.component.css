@@ -7,6 +7,11 @@ table {
     margin-right: auto;
 } */
 
+.container {
+    display: flex;
+    justify-content: center;
+}
+
 .title-container {
     display: flex;
     justify-content: center;

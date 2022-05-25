@@ -3,13 +3,18 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
+    align-items: center;
     height: 100%;
 }
 
 .exercises {
     overflow-y: auto;
-    height: 300px;
 }
+
+.exercise {
+    font-size: 13px;
+}
+
 
 ::ng-deep .workout-mat-input-wrapper{
     width: 250px;
@@ -17,8 +22,20 @@
     margin:auto;
   }
 
+  ::ng-deep .workout-duration-mat-input-wrapper{
+    width: 110px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+  ::ng-deep .workout-complexity-mat-input-wrapper{
+    width: 135px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
 ::ng-deep .exercise-mat-input-wrapper{
-    width:150px !important;
+    width:175px !important;
     margin-right: 10px;
   }
 
@@ -28,10 +45,42 @@
 }
 
 ::ng-deep .exercise-weight-mat-input-wrapper{
-    width: 125px !important;
+    width: 100px !important;
     margin-right: 10px;
 }
 
 ::ng-deep .mat-dialog-content {
     overflow-y: hidden !important;
 }
+
+.actions {
+    bottom:0;
+}
+
+.button-flex {
+   vertical-align: middle;
+}
+
+.exercise-table {
+    max-height: 400px;
+    overflow: auto;
+}
+table {
+    width: 100%;
+    /* margin: auto;
+    margin-top:10px;
+    margin-bottom: 10px; */
+}
+
+
+  .mat-dialog-content {
+    max-height: 80vh;
+  }
+
+  .table-icon:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+  }
+
+

@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080',
-  getExercises: '/exercises/',
-  getWorkouts: '/workouts/',
-  getUser: '/user/'
+  exercises: '/exercises/',
+  workouts: '/workouts/',
+  user: '/user/'
 };
 
 /*

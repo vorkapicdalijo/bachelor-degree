@@ -21,25 +21,27 @@ public class WorkoutDataAccessService implements WorkoutDao {
 
     @Override
     public int insertWorkout(Workout workout) {
-        final String sql="INSERT INTO workout (name, duration, complexity, user_id) VALUES (?,?,?,?)";
+        final String sql="INSERT INTO workout (name, duration, complexity, user_id, exercises) VALUES (?,?,?,?,?)";
         jdbcTemplate.update(sql,
                 workout.getName(),
                 workout.getDuration(),
                 workout.getComplexity(),
-                workout.getUser_id());
+                workout.getUser_id(),
+                workout.getExercises());
         return 0;
     }
 
     @Override
     public List<Workout> selectAllWorkouts() {
-        final String sql="SELECT workout_id, name, complexity, duration, user_id FROM workout";
+        final String sql="SELECT workout_id, name, complexity, duration, user_id, exercises FROM workout";
         List<Workout> workouts = jdbcTemplate.query(sql, (resultSet,i) -> {
             return new Workout(
                             Integer.parseInt(resultSet.getString("workout_id")),
                             resultSet.getString("name"),
                             resultSet.getString("complexity"),
                             Integer.parseInt(resultSet.getString("duration")),
-                            Integer.parseInt(resultSet.getString("user_id"))
+                            Integer.parseInt(resultSet.getString("user_id")),
+                            resultSet.getString("exercises")
             );
         });
         return workouts;
@@ -47,7 +49,7 @@ public class WorkoutDataAccessService implements WorkoutDao {
 
     @Override
     public List<Workout> selectWorkoutsByUserId(int user_id) {
-        final String sql = "SELECT workout_id, name, complexity, duration, user_id FROM workout WHERE user_id = ?";
+        final String sql = "SELECT workout_id, name, complexity, duration, user_id, exercises FROM workout WHERE user_id = ?";
         List<Workout> workouts = jdbcTemplate.query(sql,
                     new Object[]{user_id},
                     (resultSet,i) -> {
@@ -56,7 +58,8 @@ public class WorkoutDataAccessService implements WorkoutDao {
                         resultSet.getString("name"),
                         resultSet.getString("complexity"),
                         Integer.parseInt(resultSet.getString("duration")),
-                        Integer.parseInt(resultSet.getString("user_id"))
+                        Integer.parseInt(resultSet.getString("user_id")),
+                        resultSet.getString("exercises")
                     );
         });
         return workouts;
@@ -64,7 +67,7 @@ public class WorkoutDataAccessService implements WorkoutDao {
 
     @Override
     public Optional<Workout> selectWorkoutById(int workout_id) {
-        final String sql = "SELECT workout_id, name, complexity, duration, user_id FROM workout WHERE workout_id = ?";
+        final String sql = "SELECT workout_id, name, complexity, duration, user_id, exercises FROM workout WHERE workout_id = ?";
 
         Workout workout = jdbcTemplate.queryForObject(sql,
                 new Object[]{workout_id},
@@ -74,7 +77,9 @@ public class WorkoutDataAccessService implements WorkoutDao {
                             resultSet.getString("name"),
                             resultSet.getString("complexity"),
                             Integer.parseInt(resultSet.getString("duration")),
-                            Integer.parseInt(resultSet.getString("user_id"))
+                            Integer.parseInt(resultSet.getString("user_id")),
+                            resultSet.getString("exercises")
+
                     );
                 });
         return Optional.ofNullable(workout);
@@ -100,8 +105,8 @@ public class WorkoutDataAccessService implements WorkoutDao {
     @Override
     public int updateWorkoutById(int workout_id, Workout workout) {
         final String sql = "UPDATE workout SET name='"+workout.getName()+"'," +
-                "'"+workout.getDuration()+"', complexity='"+workout.getComplexity()+"' " +
-                "WHERE workout_id = ?";
+                "'"+workout.getDuration()+"', complexity='"+workout.getComplexity()+"', " +
+                "'"+workout.getExercises()+"'"+ "WHERE workout_id = ?";
 
         jdbcTemplate.update(sql, workout_id);
         return 0;
