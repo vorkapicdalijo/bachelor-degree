@@ -25,6 +25,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AvatarModule } from 'ngx-avatar';
 import { NameValidatorDirective } from './validators/name-validator.directive';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -60,7 +61,8 @@ import { NameValidatorDirective } from './validators/name-validator.directive';
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
-    AvatarModule
+    AvatarModule,
+    DragDropModule
   ],
   exports: [RouterModule],
   providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService,

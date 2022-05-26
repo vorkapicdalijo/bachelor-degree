@@ -4,7 +4,7 @@
         <mat-form-field appearance="outline" class="workout-mat-input-wrapper">
             <mat-error *ngIf="!name.valid && data.name">Workout name already exists</mat-error>
             <mat-label>Workout name</mat-label>
-            <input id="name"  name="name" required matInput [(ngModel)]="data.name" #name="ngModel">
+            <input id="name"  name="name" [nameValidator]="data.workoutNames" required matInput [(ngModel)]="data.name" #name="ngModel">
         </mat-form-field>
         <div>
         <mat-form-field appearance="outline" class="workout-complexity-mat-input-wrapper" style="margin-right: 5px;">
@@ -53,7 +53,8 @@
         <div class="exercises">
 
             <div class="exercise-table" *ngIf="hasExercises">
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                      cdkDropList (cdkDropListDropped)="drop($event)"  #list="cdkDropList">
 
                     <ng-container matColumnDef="position">
                         <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -91,7 +92,9 @@
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"  [cdkDragData]="row" cdkDrag (cdkDragStarted)="dragStart($event)"></tr>
+
+                    <div *cdkDragPlaceholder></div>
                 </table>
             </div>   
             <!-- <div [hidden]="!hasExercises" *ngFor="let exercise of exercise_list">

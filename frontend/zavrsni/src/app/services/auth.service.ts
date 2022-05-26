@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     if (localStorage.getItem('user')) {
-      this.user = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user') || '{}'));
+      this.user.next(JSON.parse(localStorage.getItem('user') || '{}'));
     }
    }
 

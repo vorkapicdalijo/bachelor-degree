@@ -10,6 +10,9 @@
 @import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';/* You can add global styles to this file, and also import other style files */
 
 
+body.inheritCursors * {
+    cursor: inherit !important;
+  }
 
 html, body { height: 100%; }
 html { background-color: gray; }

@@ -1,3 +1,4 @@
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -27,6 +28,7 @@ export class WorkoutDetailsComponent implements OnInit {
   displayedColumns: string[] = ['workout_id', 'name', 'duration', 'complexity'];
   //dataSource = ELEMENT_DATA;
   dataSource:any = [];
+  workouts: any[];
   $sub: Subscription;
 
   workoutToBeAdded: any;
@@ -40,6 +42,9 @@ export class WorkoutDetailsComponent implements OnInit {
 
   isLoading = false;
 
+  workoutNames: any[] = []
+  workoutNamesObj: any[] = []
+
   constructor(private titleService: Title, private appService: AppService, private authService: AuthService, private router: Router, public dialog: MatDialog) {
     this.titleService.setTitle("Workouts");
    }
@@ -49,12 +54,23 @@ export class WorkoutDetailsComponent implements OnInit {
     this.appService.getWorkouts();
 
     this.$sub = this.appService.loadedWorkoutsSub.subscribe(workouts => {
+      this.workouts = workouts;
       this.dataSource = workouts;
       this.isLoading = false;
     })
   }
 
   openAddDialog() {
+    this.workoutNames = []
+    this.workoutNamesObj = []
+
+    this.workoutNamesObj = this.workouts.map(({user_id, duration, complexity,workout_id,exercises, ...rest}) => {
+      return rest
+    })
+    
+
+    this.workoutNamesObj.forEach(obj => {this.workoutNames.push(obj.name.toLowerCase())})
+
     const dialogRef = this.dialog.open(WorkoutAddDialog, {
       panelClass: 'custom-dialog-container',
       width: '800px',
@@ -65,14 +81,16 @@ export class WorkoutDetailsComponent implements OnInit {
         name: this.name,
         complexity: this.complexity,
         duration: this.duration,
-        exercises: this.exercises
+        exercises: this.exercises,
+        workoutNames: this.workoutNames
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.isLoading = true;
+      
 
       if(result) {
+        this.isLoading = true;
         this.workoutToBeAdded = result;
         let user = this.authService.getUserFromLocalStorage();
         this.workoutToBeAdded.user_id = user.user_id;
@@ -106,25 +124,17 @@ export class WorkoutAddDialog implements OnInit {
 
   hasExercises = false;
 
-  // exercise: ExerciseWorkout = {
-  //   weight: 0,
-  //   sets: 0,
-  //   reps: 0,
-  //   name: ''
   exercise: any  = {}
-    
-
 
   exercise_list: ExerciseWorkout[] = []
 
-  namesTest = ['ivek', 'bivek', 'girek'];
-
+  bodyElement: HTMLElement = document.body;
 
   constructor(
     public dialogRef: MatDialogRef<WorkoutAddDialog>,
     private appService: AppService,
     private changeDetectorRefs: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public data: Workout,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit(): void {
@@ -166,4 +176,20 @@ export class WorkoutAddDialog implements OnInit {
   getNo(element: any) {
     return this.exercise_list.lastIndexOf(element)+1
   }
+
+  dragStart(event: CdkDragStart) {
+    this.bodyElement.classList.add('inheritCursors');
+    this.bodyElement.style.cursor = 'grabbing';
+  }
+
+  drop(event: CdkDragDrop<ExerciseWorkout[]>) {
+    this.bodyElement.classList.remove('inheritCursors');
+    this.bodyElement.style.cursor = 'unset';
+
+    const previousIndex = this.exercise_list.findIndex((row) => row === event.item.data);
+    moveItemInArray(this.exercise_list, previousIndex, event.currentIndex);
+    this.dataSource.data = this.dataSource.data;
+  }
+
+
 }
