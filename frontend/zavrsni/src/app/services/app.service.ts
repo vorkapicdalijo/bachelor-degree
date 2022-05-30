@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Exercise } from '../models/exercise';
 import { Workout } from '../models/workout';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,13 @@ export class AppService {
   $fetchSub: Subscription;
   loadedExercisesSub = new Subject<Exercise[]>();
   loadedWorkoutsSub = new Subject<Workout[]>();
+  loadedUserWorkoutsSub = new Subject<Workout[]>();
 
   deletedExerciseSub = new Subject<boolean>();
 
   exercises: Exercise[] = []
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
 
   getExercises() {
@@ -31,6 +33,17 @@ export class AppService {
       .subscribe(workouts => {
           this.loadedWorkoutsSub.next(workouts);
       })
+  }
+
+  getWorkoutsByUserId() {
+    let user = this.authService.getUserFromLocalStorage();
+    let userId = user.user_id;
+
+    this.$fetchSub = this.http.get<Workout[]>(environment.baseUrl+environment.userworkouts+`${userId}`)
+      .subscribe(userWorkouts => {
+        this.loadedUserWorkoutsSub.next(userWorkouts);
+      })
+
   }
 
   deleteExercise(id:number) {

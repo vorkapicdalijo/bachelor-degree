@@ -1,4 +1,6 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,13 +23,24 @@ export interface ExerciseWorkout {
 @Component({
   selector: 'app-workout-details',
   templateUrl: './workout-details.component.html',
-  styleUrls: ['./workout-details.component.css']
+  styleUrls: ['./workout-details.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class WorkoutDetailsComponent implements OnInit {
 
   displayedColumns: string[] = ['workout_id', 'name', 'duration', 'complexity'];
+
+  displayedColumnsEx = ["name", "sets", "reps", "weight"];
   //dataSource = ELEMENT_DATA;
-  dataSource:any = [];
+  dataSource: MatTableDataSource<any>;
+  expandedElement: any | null;
+
   workouts: any[];
   $sub: Subscription;
 
@@ -55,9 +68,30 @@ export class WorkoutDetailsComponent implements OnInit {
 
     this.$sub = this.appService.loadedWorkoutsSub.subscribe(workouts => {
       this.workouts = workouts;
-      this.dataSource = workouts;
-      this.isLoading = false;
-    })
+
+      
+    this.workouts.forEach(workout => {
+      if(typeof workout.exercises == "string") {
+          workout.exercises = JSON.parse(workout.exercises)
+      }
+      })
+
+    this.isLoading = false;
+
+    this.dataSource = new MatTableDataSource(this.workouts);
+   
+  })
+
+    
+  }
+
+  applyFilter(filterValue: any) {
+
+    this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
+  }
+
+  getNo(element: any, exercises:any[]) {
+    return exercises.lastIndexOf(element)+1
   }
 
   openAddDialog() {
@@ -130,6 +164,8 @@ export class WorkoutAddDialog implements OnInit {
 
   bodyElement: HTMLElement = document.body;
 
+  editEx = false;
+
   constructor(
     public dialogRef: MatDialogRef<WorkoutAddDialog>,
     private appService: AppService,
@@ -154,7 +190,8 @@ export class WorkoutAddDialog implements OnInit {
 
     this.exercise.weight = (exerciseForm.controls['weight'].value)
 
-    if (this.exercise.weight == '') {
+    //console.log(this.exercise.weight)
+    if (exerciseForm.controls['weight'].value == '' || exerciseForm.controls['weight'].value == null) {
       this.exercise.weight = "Bodyweight"
     }
     this.exercise.sets = exerciseForm.controls['sets'].value
@@ -170,6 +207,26 @@ export class WorkoutAddDialog implements OnInit {
     this.dataSource = new MatTableDataSource(this.exercise_list);
     this.changeDetectorRefs.detectChanges();
     this.hasExercises = true
+
+  }
+
+  edit(exercise: any, n: number) {
+    this.editEx = true;
+  }
+
+  deleteExercise(exercise:any, n: number) {
+    this.exercise_list.splice(n-1, 1);
+    this.dataSource = new MatTableDataSource(this.exercise_list);
+    if(this.exercise_list.length == 0) {
+      this.hasExercises = false;
+    }
+    else {
+      this.hasExercises = true;
+    }
+
+  }
+
+  editedExerciseSubmit() {
 
   }
 

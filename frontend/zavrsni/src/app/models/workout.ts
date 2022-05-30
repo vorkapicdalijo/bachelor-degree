@@ -5,5 +5,5 @@ export class Workout {
     duration: number;
     complexity: string;
     user_id: number;
-    exercises: any[]
+    exercises: any
 }

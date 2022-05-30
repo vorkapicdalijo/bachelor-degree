@@ -9,30 +9,84 @@
     </div>
 </div>
 <div style="margin-top:40px;" [hidden]="isLoading">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin:0px auto;">
+    <mat-form-field appearance="standard" style="margin-left:200px; margin-bottom: -10px !important;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
 
-        <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-    
-        <!-- Position Column -->
+    <table mat-table [dataSource]="dataSource.filteredData" multiTemplateDataRows class="mat-elevation-z8" style="margin:0px auto;">
+        
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                <div class="example-element-detail"
+                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <mat-divider></mat-divider>
+                    <h4 style="margin-bottom: 5px;">Exercises:</h4>
+                    <div *ngIf="expandedElement">
+                        <table>
+                            <tr style="text-align:left; color: gray; font-weight: normal;">
+                                <th style="width: 50px;">No.</th>
+                                <th style="width:150px;">Name</th>
+                                <th style="text-align: center; width: 50px;">Sets</th>
+                                <th style="text-align: center; width: 50px;">Reps</th>
+                                <th style="text-align: center; width: 100px;">Weight</th>
+                            </tr>
+                            <tr *ngFor="let el of element.exercises">
+                                <td>{{getNo(el,element.exercises)}}.</td>
+                                <td>{{el.exercise_loaded.name}}</td>
+                                <td style="text-align: center;">{{el.sets}}</td>
+                                <td style="text-align: center;">{{el.reps}}</td>
+                                <td style="text-align: center;">{{el.weight}}</td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    
+                         <div>
+                            <div style="display:flex; flex-direction: row;">
+                            </div>
+                        </div>
+                </div>
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement == element"
+            (click)="expandedElement = expandedElement === element ? null: element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+    </table>
+
+    <!-- <table mat-table [dataSource]="dataSource.filteredData" class="mat-elevation-z8" style="margin:0px auto;">
+
+
         <ng-container matColumnDef="workout_id">
         <th mat-header-cell *matHeaderCellDef> Workout ID </th>
         <td mat-cell *matCellDef="let element"> {{element.workout_id}} </td>
         </ng-container>
     
-        <!-- Name Column -->
+ 
         <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
     
-        <!-- Weight Column -->
+
         <ng-container matColumnDef="duration">
         <th mat-header-cell *matHeaderCellDef> Duration </th>
         <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
         </ng-container>
     
-        <!-- Symbol Column -->
+
         <ng-container matColumnDef="complexity">
         <th mat-header-cell *matHeaderCellDef> Complexity </th>
         <td mat-cell *matCellDef="let element"> {{element.complexity}} </td>
@@ -40,5 +94,5 @@
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    </table> -->
 </div>

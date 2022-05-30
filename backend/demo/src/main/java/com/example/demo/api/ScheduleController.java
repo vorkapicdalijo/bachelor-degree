@@ -21,9 +21,14 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
+    //@PostMapping
+    //public void addSchedule(@Valid @NonNull @RequestBody Schedule schedule) {
+      //  scheduleService.addSchedule(schedule);
+   // }
+
     @PostMapping
-    public void addSchedule(@Valid @NonNull @RequestBody Schedule schedule) {
-        scheduleService.addSchedule(schedule);
+    public void test(@Valid @NonNull @RequestBody Object obj) {
+        System.out.println(obj);
     }
 
     @GetMapping

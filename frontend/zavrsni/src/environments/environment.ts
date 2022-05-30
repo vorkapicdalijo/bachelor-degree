@@ -7,6 +7,7 @@ export const environment = {
   baseUrl: 'http://localhost:8080',
   exercises: '/exercises/',
   workouts: '/workouts/',
+  userworkouts: '/workouts/userworkouts/',
   user: '/user/'
 };
 
