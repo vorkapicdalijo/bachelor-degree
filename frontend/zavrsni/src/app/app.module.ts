@@ -4,14 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { WorkoutAddDialog, WorkoutDetailsComponent } from './workout-details/workout-details.component';
-//import { ScheduleComponent } from './schedule/schedule.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AppRoutingModule } from './app-routing.module';
-//import { ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
-//import { DayService, WeekService, WorkWeekService, MonthService, AgendaService } from '@syncfusion/ej2-angular-schedule';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LoginComponent, LoginDialog } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -26,7 +23,9 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AvatarModule } from 'ngx-avatar';
 import { NameValidatorDirective } from './validators/name-validator.directive';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { SchComponent } from './sch/sch.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 
 
@@ -37,7 +36,6 @@ import { SchComponent } from './sch/sch.component';
     HomeComponent,
     HeaderComponent,
     WorkoutDetailsComponent,
-    //ScheduleComponent,
     StatisticsComponent,
     LoginComponent,
     RegisterComponent,
@@ -48,7 +46,7 @@ import { SchComponent } from './sch/sch.component';
     LoginDialog,
     WorkoutAddDialog,
     NameValidatorDirective,
-    SchComponent
+    ScheduleComponent
     
   ],
   imports: [
@@ -56,15 +54,18 @@ import { SchComponent } from './sch/sch.component';
     NoopAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    //ScheduleModule,
-    //ScheduleAllModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
     AvatarModule,
-    DragDropModule
+    DragDropModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   exports: [RouterModule],
   providers: [
