@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, Subject, take, tap } from 'rxjs';
+import { BehaviorSubject, delay, of, Subject, Subscription, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,12 @@ export class AuthService {
   tokens: any;
   role: string = "";
   name: string = "";
+
+  $fetchSub: Subscription;
+  loadedUsers: User[];
+  tokenSub = new Subscription();
+
+  loadedUsersSub = new Subject<User[]>();
 
   user = new BehaviorSubject<any>(null);
 
@@ -67,14 +74,27 @@ export class AuthService {
     
     const expirationDate = helper.getTokenExpirationDate(token.access_token);
     const isExpired = helper.isTokenExpired(token.access_token);
+
+    this.expirationCounter(expirationDate);
     
     this.router.navigateByUrl('/home');
   }
 
   logout() {
+    this.tokenSub.unsubscribe();
     this.user.next(null);
     localStorage.removeItem('user');
     this.router.navigateByUrl('/login');
+  }
+
+  expirationCounter(timeout: any) {
+    this.tokenSub.unsubscribe();
+    this.tokenSub = of(null).pipe(delay(timeout)).subscribe((expired) => {
+      console.log('EXPIRED!!');
+
+      this.logout();
+      this.router.navigate(["/login"]);
+    });
   }
 
   isLoggedIn() {
@@ -100,5 +120,14 @@ export class AuthService {
   getUserFromLocalStorage() {
     const user = JSON.parse(localStorage.getItem("user") || '{}');
     return {user_id: user.user_id, user_name: user.user_name, role: this.role}
+  }
+
+  loadUsers() {
+    this.$fetchSub = this.http.get<User[]>(environment.baseUrl+'/api'+environment.users).subscribe(
+      users => {
+        this.loadedUsers = users;
+        this.loadedUsersSub.next(this.loadedUsers);
+      }
+    )
   }
 }

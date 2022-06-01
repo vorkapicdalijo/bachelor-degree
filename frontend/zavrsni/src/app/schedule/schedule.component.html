@@ -1,1 +1,6 @@
-<p>schedule works!</p>
+<ejs-schedule [eventSettings]='eventSettings' 
+            (actionComplete)='onActionBegin($event)'
+            (dragStop)='onDragStop($event)'
+            (resizeStop)='onResizeStop($event)'
+            (popupOpen)='onPopupOpen($event)'> 
+</ejs-schedule>

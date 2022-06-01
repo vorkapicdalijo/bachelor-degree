@@ -1,5 +1,6 @@
 table {
     width:80%;
+    margin-bottom: 15px;
 }
 
 /* .center{
@@ -28,7 +29,7 @@ table {
     overflow: hidden;
     display:flex; 
     flex-direction: column; 
-    margin-bottom: 15px;
+   
 }
 
 tr.example-detail-row {

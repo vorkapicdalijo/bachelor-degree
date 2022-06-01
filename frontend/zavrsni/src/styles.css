@@ -1,5 +1,16 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
+/* @import "../node_modules/angular-calendar/css/angular-calendar.css"; */
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-lists/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-popups/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material-dark.css'; 
+@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material-dark.css';
+/* @import '../node_modules/@syncfusion/ej2' */
 
 body.inheritCursors * {
     cursor: inherit !important;

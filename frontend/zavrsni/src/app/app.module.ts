@@ -26,6 +26,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { RecurrenceEditorAllModule, ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 
 
@@ -46,7 +48,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     LoginDialog,
     WorkoutAddDialog,
     NameValidatorDirective,
-    ScheduleComponent
+    ScheduleComponent,
+    ManageUsersComponent
     
   ],
   imports: [
@@ -59,8 +62,11 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
+    ScheduleModule,
     AvatarModule,
     DragDropModule,
+    ScheduleAllModule,
+    RecurrenceEditorAllModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

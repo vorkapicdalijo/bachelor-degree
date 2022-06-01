@@ -1,14 +1,14 @@
 .account-icon {
     transform: scale(1.5);
-    margin-left: 5px;
-    margin-right: 10px;
+    margin-left: 5%;
+    margin-right: 10%;
 }
 
 .title {
-    margin-left: 70px;
+    margin-left: 10%;
     color: black;
     font-family: 'Bebas Neue', cursive;
-    margin-top:5px;
+    margin-top:5%;
     font-size: 30px;
     letter-spacing: 8px;
     font-weight: bold;
@@ -20,7 +20,8 @@
 } */
 
 mat-toolbar {
-    background-color: rgba(145, 155, 159, 1)
+    background-color: rgba(145, 155, 159, 1);
+    height: 7% !important;;
 }
 
 body {
