@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.SchDao;
 import com.example.demo.model.Sch;
+import com.example.demo.model.ScheduleAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,16 @@ public class SchService {
         this.schDao = schDao;
     }
 
-    public int insertSch(Sch sch) {
+    public int insertSch(ScheduleAction sch) {
         return schDao.insertSch(sch);
     }
-    public List<Sch> getSch() {
+    public List<ScheduleAction> getSch() {
         return schDao.getSch();
+    }
+    public int deleteSch(int id) {
+        return schDao.deleteSch(id);
+    }
+    public int updateSch(int id, ScheduleAction newEvent) {
+        return schDao.updateSch(id, newEvent);
     }
 }
