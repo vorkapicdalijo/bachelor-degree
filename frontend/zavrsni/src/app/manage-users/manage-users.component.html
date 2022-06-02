@@ -1,24 +1,41 @@
 <div class="wrapper">
-<h4 style="text-align: center">Registered users</h4>
+    <div style="display:flex;flex-direction: column;align-items: center;">
+        <h4 style="text-align: center; color: white; font-size: 32px; text-shadow: 4px 4px black;">Registered users</h4>
+        <mat-divider></mat-divider>
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="openRegisterDialog()">Register new User</button>
+    </div>
+    <div class="container">
+        <div [hidden]="!isLoading">
+            <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
+        </div>
+    </div>
+    <div [hidden]="isLoading">
+        <table mat-table [dataSource]="dataSource" class="mat-elevatiob-z8">
 
-<div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevatiob-z8">
-
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let element">{{element.user_id}}</td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let element">{{element.name}}</td>
-        </ng-container>
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let element">{{element.email}}</td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-</div>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let element">{{element.user_id}}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let element">{{element.email}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon class="material-icons-outlined table-icon" 
+                                color="primary" matTooltip="Edit" matTooltipPosition="above" (click)="openEditDialog(element)">{{'ROLE_ADMIN' == element.role ? '':'edit_note'}}</mat-icon>
+                    <mat-icon class="material-icons-outlined table-icon"
+                                color="warn" matTooltip="Delete" matTooltipPosition="above" (click)="openDeleteDialog(element.user_id, element.name)">{{'ROLE_ADMIN' == element.role ? '':'delete_forever'}}</mat-icon>
+                </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'highlight': 'ROLE_ADMIN' == row.role}"></tr>
+        </table>
+    </div>
 </div>

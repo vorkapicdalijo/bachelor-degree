@@ -104,7 +104,7 @@ public class UserDataAccessService implements UserDao, UserDetailsService {
 
     @Override
     public int updateUserById(int id, User user) {
-        final String sql = "UPDATE user SET name='"+user.getName()+"', email='"+user.getEmail()+"', password='"+user.getPassword()+"' WHERE user_id = ?";
+        final String sql = "UPDATE appuser SET name='"+user.getName()+"', email='"+user.getEmail()+"', password='"+user.getPassword()+"' WHERE user_id = ?";
 
         jdbcTemplate.update(sql, id);
 

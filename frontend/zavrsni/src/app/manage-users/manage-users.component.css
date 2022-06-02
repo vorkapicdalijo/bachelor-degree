@@ -1,7 +1,11 @@
 table {
-    width: 65%;
+    width: 40%;
     margin: auto;
     margin-top:20px;
+}
+
+.mat-divider {
+    border-top-color: white;
 }
 
 .wrapper {
@@ -14,4 +18,19 @@ table {
 
 html {
     overflow: hidden;
+}
+
+.highlight {
+    background: lightgray;
+}
+
+.table-icon:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
 }

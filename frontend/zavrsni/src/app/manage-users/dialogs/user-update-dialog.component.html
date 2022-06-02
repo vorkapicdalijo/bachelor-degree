@@ -1,0 +1,18 @@
+<h1 mat-dialog-title style="text-align: center;">Update User Info</h1>
+<div mat-dialog-content>
+    <div class="inner-div">
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <mat-error *ngIf="!email.valid && newData.email">Email invalid or already exists</mat-error>
+            <input id="email" [nameValidator]="data.emails" name="email" email  required matInput [ngModel] ="data.user.email" (ngModelChange)="newData.email = $event" #email="ngModel">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <textarea id="name" matInput [ngModel] ="data.user.name" required (ngModelChange)="newData.name = $event" #name="ngModel"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="newData" color="primary" [disabled]="email.invalid || name.invalid" cdkFocusInitial>Submit</button>
+</div>

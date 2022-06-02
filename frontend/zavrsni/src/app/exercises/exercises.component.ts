@@ -10,12 +10,6 @@ import { Exercise } from '../models/exercise';
 import { AppService } from '../services/app.service';
 import { AuthService } from '../services/auth.service';
 
-// export interface Exercise {
-//   name: string;
-//   id: number;
-//   imageUrl: string;
-//   description: string;
-// }
 
 export interface AddDialogData {
   name: string;
@@ -155,6 +149,8 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     })
 
     this.exerciseNamesObj.forEach(obj => {this.exerciseNames.push(obj.name.toLowerCase())})
+
+    this.exerciseNames = this.exerciseNames.filter(ex => ex !==exercise.name.toLowerCase())
 
     var exerciseCopy: Exercise = exercise;
     const dialogRef = this.dialog.open(ExerciseUpdateDialog, {

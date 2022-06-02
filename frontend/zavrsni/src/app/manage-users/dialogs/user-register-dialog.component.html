@@ -1,0 +1,25 @@
+<h1 mat-dialog-title style="text-align: center;">Register new User</h1>
+<div mat-dialog-content>
+    <div class="inner-div">
+        <mat-form-field appearance="outline" class="item">
+            <mat-error *ngIf="!email.valid && data.email">Email not valid or already exists</mat-error>
+            <mat-label>Email</mat-label>
+            <input id="email" [nameValidator]="data.emails" ngModel name="email" required email matInput [(ngModel)]="data.email" #email="ngModel">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="item">
+            <mat-label>Name</mat-label>
+            <input id="name" name="name" required matInput [(ngModel)]="data.name" #name="ngModel">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="item">
+            <mat-label>Password</mat-label>
+            <input [type]="hide ? 'password' : 'text'" id="password" name="password" required matInput [(ngModel)]="data.password" #password="ngModel">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" >
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="data" color="primary" [disabled]="!email.valid || !name.valid || !password.valid" cdkFocusInitial>Submit</button>
+</div>

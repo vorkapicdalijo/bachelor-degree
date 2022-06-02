@@ -59,12 +59,12 @@ public class UserController {
                 .orElse(null);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/users/{id}")
     public void deleteUserById(@PathVariable("id") int id) {
         userService.deleteUser(id);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/users/{id}")
     public void updatePerson(@PathVariable("id")  int id, @Valid @NonNull @RequestBody User userToUpdate) {
         userService.updateUser(id,userToUpdate);
     }

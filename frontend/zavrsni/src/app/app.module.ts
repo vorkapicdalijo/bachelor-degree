@@ -27,7 +27,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RecurrenceEditorAllModule, ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
-import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { ManageUsersComponent, UserDeleteDialog, UserUpdateDialog } from './manage-users/manage-users.component';
+import { UserRegisterDialog} from './manage-users/manage-users.component'
 
 
 
@@ -47,6 +48,9 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     ExerciseUpdateDialog,
     LoginDialog,
     WorkoutAddDialog,
+    UserRegisterDialog,
+    UserDeleteDialog,
+    UserUpdateDialog,
     NameValidatorDirective,
     ScheduleComponent,
     ManageUsersComponent

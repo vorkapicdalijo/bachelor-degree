@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'schedule', component: ScheduleComponent,canActivate: [AuthGuard] },
   { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'usersmanage', component: ManageUsersComponent, canActivate: [AuthGuard]},
+  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full'},

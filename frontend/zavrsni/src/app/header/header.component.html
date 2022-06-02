@@ -9,7 +9,7 @@
         </div>
 
     <mat-menu #menu="matMenu" style="margin-top: 15px;">
-        <button mat-menu-item [routerLink]="['/usersmanage']" [routerLinkActive]="['router-link-active']" *ngIf="isAdmin()">
+        <button mat-menu-item [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" *ngIf="isAdmin()">
             <mat-icon>manage_accounts</mat-icon>
             <span>Manage users</span>
         </button>

@@ -8,7 +8,8 @@ export const environment = {
   exercises: '/exercises/',
   workouts: '/workouts/',
   userworkouts: '/workouts/userworkouts/',
-  users: '/users/'
+  users: '/users/',
+  saveUser: '/user/save'
 };
 
 /*

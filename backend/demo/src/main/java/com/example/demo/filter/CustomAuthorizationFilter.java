@@ -38,14 +38,11 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
-                    log.info("{}",token);
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
-                    log.info("{}",decodedJWT);
                     String username = decodedJWT.getSubject();
                     String[] role = decodedJWT.getClaim("role").asArray(String.class);
-                    log.info("{}",role);
 
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(role).forEach(rol -> {

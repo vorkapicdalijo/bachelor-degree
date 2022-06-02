@@ -1,0 +1,10 @@
+.inner-div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item {
+    margin-left: 10px;
+    margin-right: 10px;
+}

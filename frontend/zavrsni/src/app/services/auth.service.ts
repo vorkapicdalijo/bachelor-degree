@@ -130,4 +130,16 @@ export class AuthService {
       }
     )
   }
+
+  saveUser(user: User) {
+    var body = user;
+    return this.http.post<User>(environment.baseUrl+'/api'+environment.saveUser,body);
+  }
+  deleteUser(id:number) {
+    return this.http.delete<User>(environment.baseUrl+'/api'+environment.users+`${id}`);
+  }
+  updateUser(id:number, user:User) {
+    var body = user;
+    return this.http.put<User>(environment.baseUrl+'/api'+environment.users+`${id}`, body);
+  }
 }
