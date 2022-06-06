@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface SchDao {
 
-    int insertSch(ScheduleAction sch);
+    int insertSch(ScheduleAction sch, int user_id);
 
-    List<ScheduleAction> getSch();
+    List<ScheduleAction> getSch(int user_id);
 
     int deleteSch(int id);
 

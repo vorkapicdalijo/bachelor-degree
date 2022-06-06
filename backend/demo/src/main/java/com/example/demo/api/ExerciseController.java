@@ -28,6 +28,7 @@ public class ExerciseController {
 
     @GetMapping
     public List<Exercise> getAllExercise() {
+
         return exerciseService.getAllExercise();
     }
 

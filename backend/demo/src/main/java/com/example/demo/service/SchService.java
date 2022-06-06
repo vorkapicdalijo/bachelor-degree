@@ -20,11 +20,11 @@ public class SchService {
         this.schDao = schDao;
     }
 
-    public int insertSch(ScheduleAction sch) {
-        return schDao.insertSch(sch);
+    public int insertSch(ScheduleAction sch, int user_id) {
+        return schDao.insertSch(sch, user_id);
     }
-    public List<ScheduleAction> getSch() {
-        return schDao.getSch();
+    public List<ScheduleAction> getSch(int user_id) {
+        return schDao.getSch(user_id);
     }
     public int deleteSch(int id) {
         return schDao.deleteSch(id);

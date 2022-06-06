@@ -67,5 +67,9 @@ export class AppService {
     return this.http.post<Workout>(environment.baseUrl+environment.workouts, body )
   }
 
+  getScheduledWorkouts() {
+    return this.http.post<any>(environment.baseUrl+'/sch',{})
+  }
+
 
 }

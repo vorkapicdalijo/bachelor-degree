@@ -22,20 +22,21 @@ public class SchDac implements SchDao{
     }
 
     @Override
-    public int insertSch(ScheduleAction sch) {
-        final String sql="INSERT INTO test1 (subject, starttime, endtime) VALUES (?, ?, ?)";
+    public int insertSch(ScheduleAction sch, int user_id) {
+        final String sql="INSERT INTO test1 (subject, starttime, endtime, user_id) VALUES (?, ?, ?, ?)";
 
         jdbcTemplate.update(sql,
                 sch.getSubject(),
                 sch.getStartTime(),
-                sch.getEndTime());
+                sch.getEndTime(),
+                user_id);
         return 0;
     }
 
     @Override
-    public List<ScheduleAction> getSch() {
-        final String sql="SELECT id, subject, starttime, endtime FROM test1";
-        List<ScheduleAction> schedules = jdbcTemplate.query(sql, (resultSet, i) -> {
+    public List<ScheduleAction> getSch(int user_id) {
+        final String sql="SELECT id, subject, starttime, endtime, user_id FROM test1 WHERE user_id = ?";
+        List<ScheduleAction> schedules = jdbcTemplate.query(sql, new Object[]{user_id}, (resultSet, i) -> {
             return new ScheduleAction(
                     resultSet.getString("endtime"),
                     Integer.parseInt(resultSet.getString("id")),

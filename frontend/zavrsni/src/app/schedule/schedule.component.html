@@ -1,6 +1,41 @@
 <ejs-schedule [eventSettings]='eventSettings' 
             (actionComplete)='onActionBegin($event)'
+            (eventRendered)="onEventRendered($event)"
             (dragStop)='onDragStop($event)'
+            timezone="Europe/Budapest"
             (resizeStop)='onResizeStop($event)'
             (popupOpen)='onPopupOpen($event)'> 
+    <ng-template #editorTemplate let-data>
+        <table class="custom-event-editor" width="100%">
+            <tbody>
+                <tr>
+                    <td class="e-textlabel">Workout</td>
+                    <td colspan="4">
+                        <form [formGroup]="form" novalidate>
+                        <ejs-dropdownlist #dropdown id='Subject' [fields]="fields" formControlName="subject"  class="e-field" data-name="Subject" placeholder='Choose Workout'
+                            [dataSource]='objarr' (change)="onChange($event)">
+                        </ejs-dropdownlist>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <ejs-datetimepicker id="StartTime" class="e-field" data-name="StartTime"
+                            format="M/dd/yy h:mm a" [value]="dateParser(data.startTime || data.StartTime)">
+                        </ejs-datetimepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <ejs-datetimepicker id="EndTime" class="e-field" data-name="EndTime" format="M/dd/yy h:mm a"
+                            [value]='dateParser(data.endTime || data.EndTime)'></ejs-datetimepicker>
+                    </td>
+                </tr>
+            </tbody>
+            <div *ngIf="showWorkoutInfo" style="width: 100%; display: flex; flex-direction: column; justify-content:center">
+                <div>p</div>
+                <div>b</div>
+            </div>
+        </table>
+    </ng-template>
 </ejs-schedule>

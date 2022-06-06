@@ -29,6 +29,9 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RecurrenceEditorAllModule, ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { ManageUsersComponent, UserDeleteDialog, UserUpdateDialog } from './manage-users/manage-users.component';
 import { UserRegisterDialog} from './manage-users/manage-users.component'
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
@@ -67,9 +70,12 @@ import { UserRegisterDialog} from './manage-users/manage-users.component'
     ReactiveFormsModule,
     MatTooltipModule,
     ScheduleModule,
+    DropDownListModule,
+    DatePickerModule,
     AvatarModule,
     DragDropModule,
     ScheduleAllModule,
+    NgApexchartsModule,
     RecurrenceEditorAllModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
