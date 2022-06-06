@@ -71,5 +71,14 @@ export class AppService {
     return this.http.post<any>(environment.baseUrl+'/sch',{})
   }
 
+  getProgresses() {
+    return this.http.get<any>(environment.baseUrl+'/progress')
+  }
+
+  insertProgress(progress: any) {
+    var body = progress
+    return this.http.post<any>(environment.baseUrl+'/progress', body)
+  }
+
 
 }

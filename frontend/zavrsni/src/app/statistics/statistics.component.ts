@@ -1,14 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ApexAxisChartSeries, ApexChart, ApexFill, ApexMarkers, ApexPlotOptions, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexMarkers, ApexPlotOptions, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 import { AppService } from '../services/app.service';
 
 
-export interface DataType  {
+export interface SchDataType  {
   Subject: string;
   StartTime: string;
   EndTime: string;
   Id: number;
+}
+
+export interface ProgDataType {
+  name:string;
+  weight:string;
+  sets:string;
+  reps:string;
+  date:string;
 }
 
 export type ChartOptions = {
@@ -22,6 +30,11 @@ export type ChartOptions = {
   plotOptions: ApexPlotOptions | any;
   fill: ApexFill | any;
   tooltip: ApexTooltip | any;
+  grid: ApexGrid |any;
+  dataLabels: ApexDataLabels | any;
+  title: ApexTitleSubtitle | any;
+  colors: string[] | any;
+  legend: ApexLegend | any;
 };
 
 @Component({
@@ -31,20 +44,32 @@ export type ChartOptions = {
 })
 export class StatisticsComponent implements OnInit {
 
-  data: any[] = []
+  workoutsScheduleData: SchDataType[] = []
   dates : any[] = []
   workouts: any[] = []
   weeks: any[] = []
+  showGraphBool: boolean = false;
 
+  progressesData: ProgDataType[] = []
   workoutCount: any[] = []
 
-  @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  selectedExercise: string;
+  exerciseNames: string[] = []
+  exerciseDates: any[] = []
+  exerciseSets: any [] = []
+  exerciseReps: any[] = []
+  exerciseWeight: any[] = []
+
+  @ViewChild("barChart") barChart: ChartComponent;
+  public barChartOptions: Partial<ChartOptions>;
+
+  @ViewChild("lineChart") lineChart: ChartComponent;
+  public lineChartOptions: Partial<ChartOptions>;
 
   constructor(private titleService: Title, private appService: AppService) {
     this.titleService.setTitle("Statistics");
 
-    this.chartOptions = {
+    this.barChartOptions = {
       series: [
         {
           name: "Arrivals",
@@ -106,6 +131,7 @@ export class StatisticsComponent implements OnInit {
         }
       }
     };
+
   }
 
   public generateData(count: any, yrange: any) {
@@ -127,13 +153,107 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.appService.getScheduledWorkouts().subscribe(workouts => {
-      this.data = workouts;
+      this.workoutsScheduleData = workouts;
 
-      this.manageData(this.data);
+      this.manageArrivalData(this.workoutsScheduleData);
+    })
+
+    this.appService.getProgresses().subscribe(progresses => {
+      this.progressesData = progresses;
+
+      this.progressesData.sort(function(a,b) { return new Date(a.date).valueOf() - new Date(b.date).valueOf() });
+
+      this.manageProgressesData(this.progressesData);
     })
   }
 
-  manageData(data:DataType[]) {
+  onChange(event:any) {
+    this.selectedExercise = event.value
+  }
+
+  showGraph() {
+    this.exerciseDates = []
+    this.exerciseWeight = []
+    this.exerciseSets = []
+    this.exerciseReps = []
+    
+    for (let el of this.progressesData) {
+      if (el.name == this.selectedExercise) {
+        this.exerciseDates.push(el.date)
+        this.exerciseSets.push(el.sets)
+        this.exerciseReps.push(el.reps)
+        if(el.weight == 'bodyweight')
+          this.exerciseWeight.push(0)
+        else
+          this.exerciseWeight.push(el.weight)
+      }
+    }
+
+    this.showGraphBool = true;
+
+    this.lineChartOptions = {
+      series: [
+        {
+          name: "Weight",
+          data: this.exerciseWeight
+        },
+        {
+          name: "Sets",
+          data: this.exerciseSets
+        },
+        {
+          name: "Reps",
+          data: this.exerciseReps
+        }
+        
+      ],
+      chart: {
+        height: 350,
+        type: "line",
+        zoom: {
+          enabled: false
+        }
+      },
+      colors: ["#545454", "#e33e9c", "#698f00"],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: "straight"
+      },
+      title: {
+        text: "Progress",
+        align: "left"
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+      },
+      grid: {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      },
+      xaxis: {
+        categories: this.exerciseDates
+      }
+    };
+  }
+
+  manageProgressesData(data: ProgDataType[]) {
+    this.exerciseNames = []
+
+    for (let el of data) {
+      if (!this.exerciseNames.includes(el.name)) 
+        this.exerciseNames.push(el.name)
+    }
+  }
+
+  manageArrivalData(data:SchDataType[]) {
     this.workouts = []
     this.dates = []
     this.weeks = []
@@ -151,7 +271,7 @@ export class StatisticsComponent implements OnInit {
       //this.dates.push(startOfWeek);
       this.dates.push(date.toLocaleDateString())
     })
-    this.weeks.sort();
+    this.weeks.sort(function(a,b) { return new Date(a).valueOf() - new Date(b).valueOf() });
 
     for (let week of this.weeks) {
       let count = 0;
@@ -167,7 +287,7 @@ export class StatisticsComponent implements OnInit {
 
     }
 
-    this.chartOptions = {
+    this.barChartOptions = {
       series: [
         {
           name: "Arrivals",

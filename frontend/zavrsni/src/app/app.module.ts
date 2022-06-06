@@ -13,7 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LoginComponent, LoginDialog } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ExerciseAddDialog, ExerciseDeleteDialog, ExercisesComponent, ExerciseUpdateDialog } from './exercises/exercises.component';
+import { ExerciseAddDialog, ExerciseDeleteDialog, ExercisesComponent, ExerciseUpdateDialog, ProgressDialog } from './exercises/exercises.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -49,6 +49,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     ExerciseAddDialog,
     ExerciseDeleteDialog,
     ExerciseUpdateDialog,
+    ProgressDialog,
     LoginDialog,
     WorkoutAddDialog,
     UserRegisterDialog,

@@ -18,7 +18,14 @@ export interface AddDialogData {
   exerciseNames: string[];
 }
 
-
+export interface ExerciseProgress {
+  name:string;
+  weight:string;
+  sets:number;
+  reps:number;
+  date:string;
+  user_id:number;
+}
 
 
 @Component({
@@ -48,6 +55,16 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   exerciseNames: any[] = []
   dataSource: MatTableDataSource<Exercise>;
 
+  progression: ExerciseProgress = {
+    name:'',
+    date:'',
+    weight:'',
+    sets:0,
+    reps:0,
+    user_id:0
+  }
+
+  storedProgresses: ExerciseProgress[] = []
 
   constructor(private router: Router,private appService: AppService, public dialog: MatDialog, private titleService:Title, private authService: AuthService) {
       this.titleService.setTitle("Exercises");
@@ -66,10 +83,10 @@ export class ExercisesComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     })
 
-    // this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
-    //   console.log(exercises);
-    //   this.exercises = exercises;
-    // })
+    this.appService.getProgresses().subscribe(res => {
+      this.storedProgresses = res;
+    })
+
   }
   ngOnDestroy(): void {
     this.$sub.unsubscribe();
@@ -78,6 +95,50 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   applyFilter(filterValue: any) {
 
     this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
+  }
+
+  openProgressDialog() {
+    this.exerciseNames = []
+    this.exerciseNamesObj = []
+    this.exerciseNamesObj = this.exercises.map(({user_id, description, imageurl,exercise_id, ...rest}) => {
+      return rest
+    })
+    this.exerciseNamesObj.forEach(obj => {this.exerciseNames.push(obj.name)})
+ 
+    const dialogRef = this.dialog.open(ProgressDialog, {
+      panelClass: 'custom-dialog-container',
+      width: '400px',
+      data: {
+        exercises: this.exerciseNames,
+        storedProgresses: this.storedProgresses
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.progression.name = result.selected;
+        this.progression.sets = result.sets;
+        this.progression.reps = result.reps;
+
+        if (result.weight == null || result.weight == 0)
+          this.progression.weight = 'bodyweight'
+        else
+          this.progression.weight = result.weight;
+
+        let date = new Date(result.date)
+        this.progression.date = date.toLocaleDateString();
+
+        let user = this.authService.getUserFromLocalStorage();
+        this.progression.user_id = user.user_id;
+        
+        this.appService.insertProgress(this.progression).subscribe(res => {
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(
+            () => {
+              this.router.navigate(['/exercises']);
+            }
+          )
+        })
+      }
+    })
   }
 
   openDialog() {
@@ -179,6 +240,43 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   }
 }
 
+@Component({
+  selector: 'app-progress-dialog',
+  templateUrl: './dialogs/progress-dialog.component.html',
+  styleUrls: ['./dialogs/progress-dialog.component.css']
+})
+export class ProgressDialog {
+  exerciseProgress: ExerciseProgress[] = []
+  latestProgress: ExerciseProgress;
+  contains: boolean = true;
+
+  constructor(
+    public dialogRef: MatDialogRef<ExerciseAddDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {exercises: string[], weight: string, sets:number, reps:number, selected: string, date:string, storedProgresses:ExerciseProgress[]},
+  ) {}
+
+  onChange(event:any) {
+    this.exerciseProgress = []
+    let  name = event.value;
+    for (let progress of this.data.storedProgresses) {
+      if (name == progress.name) {
+        this.exerciseProgress.push(progress);
+      }
+    }
+    if (this.exerciseProgress.length > 1)
+      this.exerciseProgress.sort(function(a,b) { return new Date(b.date).valueOf() - new Date(a.date).valueOf() } )
+    if (this.exerciseProgress.length > 0) {
+      this.latestProgress = this.exerciseProgress[0];
+      this.contains = true;
+    }
+    else 
+      this.contains = false;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
 @Component({
   selector: 'app-exercise-add-dialog',
   templateUrl: './dialogs/exercise-add-dialog.component.html',

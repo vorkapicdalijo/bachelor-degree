@@ -1,16 +1,52 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div id="chart">
-    <h2 style="text-align:center">Weekly arrival count</h2>
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [yaxis]="chartOptions.yaxis"
-      [xaxis]="chartOptions.xaxis"
-      [labels]="chartOptions.labels"
-      [stroke]="chartOptions.stroke"
-      [plotOptions]="chartOptions.plotOptions"
-      [markers]="chartOptions.markers"
-      [fill]="chartOptions.fill"
-    ></apx-chart>
-  </div>
+<div>
+  <h1 style="text-align: center;">Statistics</h1>
+</div>
+<div class="grid-container">
+  <div class="grid-container-inner">
+      <div class="exercise-container">
+        <h2 style="text-align: center;">Exercise progression</h2>
+        <mat-form-field appearence="outline" class="input-wrapper">
+          <mat-label>Select exercise</mat-label>
+          <mat-select name="selected" (selectionChange)="onChange($event)">
+              <mat-option *ngFor="let ex of exerciseNames" value="{{ex}}" >{{ex}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="!selectedExercise" (click)="showGraph()" style="width: 30%; margin:auto; margin-bottom:20px;">Get insight</button>
+      </div>
+      <div *ngIf="showGraphBool">
+        <div id="lineChart">
+          <h3 style="text-align: center;">{{selectedExercise}} progression</h3>
+          <apx-chart
+            [series]="lineChartOptions.series"
+            [chart]="lineChartOptions.chart"
+            [xaxis]="lineChartOptions.xaxis"
+            [dataLabels]="lineChartOptions.dataLabels"
+            [grid]="lineChartOptions.grid"
+            [stroke]="lineChartOptions.stroke"
+            [title]="lineChartOptions.title"
+          ></apx-chart>
+        </div>
+      </div>
+      <div>
+        <div id="barChart">
+          <h2 style="text-align:center">Weekly arrival count</h2>
+          <apx-chart
+            [series]="barChartOptions.series"
+            [chart]="barChartOptions.chart"
+            [yaxis]="barChartOptions.yaxis"
+            [xaxis]="barChartOptions.xaxis"
+            [labels]="barChartOptions.labels"
+            [stroke]="barChartOptions.stroke"
+            [plotOptions]="barChartOptions.plotOptions"
+            [markers]="barChartOptions.markers"
+            [fill]="barChartOptions.fill"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
   

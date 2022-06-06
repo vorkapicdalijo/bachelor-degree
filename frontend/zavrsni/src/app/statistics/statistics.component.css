@@ -1,4 +1,40 @@
-#chart {
+#barChart, #lineChart {
     max-width: 650px;
     margin: 35px auto;
+  }
+
+  .grid-container {
+    padding: 0 .5rem;
+    grid-template-columns: auto;
+    display: grid;
+    width: 60%;
+    margin:auto;
+    grid-template-columns: [full-start] 1fr [full-end];
+  }
+  
+  .grid-container-inner {
+    grid-column: full-start/full-end;
+  
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: [full-start] 1fr [full-end];
+    grid-gap: 1rem;
+  }
+  
+  .grid-container-inner>div{
+      border-radius: 3px;
+      box-shadow: 1px 1px 5px 3px rgba(51, 51, 51, 0.192);
+    }
+
+  .exercise-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  ::ng-deep .input-wrapper{
+    width: 250px;
+    max-width: 250px !important;
+    margin:auto;
+    margin-bottom: 10px;
   }
