@@ -11,6 +11,8 @@ import { AuthService } from './auth.service';
 })
 export class AppService {
   $fetchSub: Subscription;
+  $fetchSub2: Subscription;
+
   loadedExercisesSub = new Subject<Exercise[]>();
   loadedWorkoutsSub = new Subject<Workout[]>();
   loadedUserWorkoutsSub = new Subject<Workout[]>();
@@ -23,7 +25,7 @@ export class AppService {
 
 
   getExercises() {
-   return this.http.get<Exercise[]>(environment.baseUrl + environment.exercises).subscribe(exercises => {
+    return this.http.get<Exercise[]>(environment.baseUrl + environment.exercises).subscribe(exercises => {
      this.loadedExercisesSub.next(exercises);
      this.exercises = exercises;
    })
@@ -39,7 +41,7 @@ export class AppService {
     let user = this.authService.getUserFromLocalStorage();
     let userId = user.user_id;
 
-    this.$fetchSub = this.http.get<Workout[]>(environment.baseUrl+environment.userworkouts+`${userId}`)
+    this.$fetchSub2 = this.http.get<Workout[]>(environment.baseUrl+environment.userworkouts+`${userId}`)
       .subscribe(userWorkouts => {
         this.loadedUserWorkoutsSub.next(userWorkouts);
       })

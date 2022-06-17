@@ -1,6 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Inject, ViewChild, OnDestroy} from '@angular/core';
-import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
@@ -35,6 +33,15 @@ export interface ExerciseProgress {
 })
 export class ExercisesComponent implements OnInit, OnDestroy {
   $sub: Subscription;
+  $sub1: Subscription;
+  $sub2: Subscription;
+  $sub3: Subscription;
+  $sub4: Subscription;
+  $sub5: Subscription;
+  $sub6: Subscription;
+  $sub7: Subscription;
+  $sub8: Subscription;
+  $sub9: Subscription;
 
   error: boolean = false;
 
@@ -83,13 +90,22 @@ export class ExercisesComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     })
 
-    this.appService.getProgresses().subscribe(res => {
+    this.$sub1 =  this.appService.getProgresses().subscribe(res => {
       this.storedProgresses = res;
     })
 
   }
   ngOnDestroy(): void {
     this.$sub.unsubscribe();
+    this.$sub1.unsubscribe();
+    //this.$sub3.unsubscribe();
+    //this.$sub2.unsubscribe();
+    //this.$sub4.unsubscribe();
+    //this.$sub5.unsubscribe();
+    //this.$sub6.unsubscribe();
+    //this.$sub7.unsubscribe();
+    //this.$sub8.unsubscribe();
+    //this.$sub9.unsubscribe();
   }
 
   applyFilter(filterValue: any) {
@@ -113,7 +129,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         storedProgresses: this.storedProgresses
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub3 = dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.progression.name = result.selected;
         this.progression.sets = result.sets;
@@ -130,7 +146,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         let user = this.authService.getUserFromLocalStorage();
         this.progression.user_id = user.user_id;
         
-        this.appService.insertProgress(this.progression).subscribe(res => {
+        this.$sub4 = this.appService.insertProgress(this.progression).subscribe(res => {
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
               this.router.navigate(['/exercises']);
@@ -163,7 +179,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
              description: this.description,
              exerciseNames: this.exerciseNames},
     });
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub5 = dialogRef.afterClosed().subscribe(result => {
       this.passedValues = result;
       if(this.passedValues) {
         const userData = this.authService.getUserFromLocalStorage();
@@ -173,7 +189,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         let newExercise: Exercise = this.passedValues
         this.isLoading = true;
 
-        this.appService.insertExercise(newExercise)
+        this.$sub6 = this.appService.insertExercise(newExercise)
           .subscribe(res => {
             this.isLoading = false;
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(
@@ -221,13 +237,13 @@ export class ExercisesComponent implements OnInit, OnDestroy {
              exerciseNames: this.exerciseNames},
       position: {top: '60px'}
     });
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub7 = dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.isLoading = true;
         this.updatedValues = result;
         this.updatedValues.exercise_id = exercise.exercise_id;
         
-        this.appService.updateExercise(this.updatedValues.exercise_id, this.updatedValues).subscribe(res => {
+        this.$sub8 = this.appService.updateExercise(this.updatedValues.exercise_id, this.updatedValues).subscribe(res => {
           this.isLoading = false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
@@ -306,8 +322,8 @@ export class ExerciseAddDialog {
   templateUrl: './dialogs/exercise-delete-dialog.component.html',
   styleUrls: ['./dialogs/exercise-delete-dialog.component.css']
 })
-export class ExerciseDeleteDialog {
-  
+export class ExerciseDeleteDialog implements OnDestroy {
+  $sub: Subscription;
   isLoading : boolean = false;
 
   constructor(private appService: AppService,
@@ -320,9 +336,13 @@ export class ExerciseDeleteDialog {
     this.dialogRef.close();
   }
 
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+  }
+
   deleteExercise(id:number) {
     this.isLoading = true;
-    this.appService.deleteExercise(id).subscribe(res => {
+    this.$sub = this.appService.deleteExercise(id).subscribe(res => {
         this.isLoading = false;
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(
           () => {

@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { User } from '../models/user';
 import { AppService } from '../services/app.service';
 import { AuthService } from '../services/auth.service';
@@ -27,7 +28,13 @@ const ELEMENT_DATA: any[] = [
   styleUrls: ['./manage-users.component.css']
 })
 
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit, OnDestroy {
+
+  $sub1: Subscription;
+  $sub2: Subscription;
+  $sub3: Subscription;
+  $sub4: Subscription;
+  $sub5: Subscription;
 
   loadedUsers: User[] = []
   displayedColumns = ['id', 'name', 'email','action'];
@@ -59,10 +66,18 @@ export class ManageUsersComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loadUsers();
 
-    this.authService.loadedUsersSub.subscribe(users => {
+    this.$sub1 = this.authService.loadedUsersSub.subscribe(users => {
       this.loadedUsers = users;
       this.dataSource = new MatTableDataSource(this.loadedUsers);
     })
+  }
+
+  ngOnDestroy(): void {
+    this.$sub1.unsubscribe();
+    this.$sub2.unsubscribe();
+    this.$sub3.unsubscribe();
+    this.$sub4.unsubscribe();
+    this.$sub5.unsubscribe();
   }
 
   openRegisterDialog() {
@@ -86,7 +101,7 @@ export class ManageUsersComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub2 = dialogRef.afterClosed().subscribe(result => {
       this.passedValues = result;
       if(result) {
         this.isLoading=true;
@@ -95,7 +110,7 @@ export class ManageUsersComponent implements OnInit {
         this.newUser.password = result.password;
         this.newUser.role = "ROLE_USER";
 
-        this.authService.saveUser(this.newUser).subscribe(res => {
+        this.$sub3 = this.authService.saveUser(this.newUser).subscribe(res => {
           this.isLoading=false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
@@ -140,14 +155,14 @@ export class ManageUsersComponent implements OnInit {
       position: {top:'60px'}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub4 = dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.isLoading = true;
         this.updatedValues = result;
         this.updatedValues.user_id = user.user_id;
         this.updatedValues.role = user.role;
 
-        this.authService.updateUser(user.user_id, this.updatedValues).subscribe(res => {
+        this.$sub5 = this.authService.updateUser(user.user_id, this.updatedValues).subscribe(res => {
           this.isLoading = false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
@@ -186,8 +201,8 @@ export class UserRegisterDialog {
   templateUrl: './dialogs/user-delete-dialog.component.html',
   styleUrls: ['./dialogs/user-delete-dialog.component.css']
 })
-export class UserDeleteDialog {
-  
+export class UserDeleteDialog implements OnDestroy {
+  $sub: Subscription;
   isLoading : boolean = false;
 
   constructor(private authService: AuthService,
@@ -200,9 +215,13 @@ export class UserDeleteDialog {
     this.dialogRef.close();
   }
 
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+  }
+
   deleteUser(id:number) {
     this.isLoading = true;
-    this.authService.deleteUser(id).subscribe(res => {
+    this.$sub = this.authService.deleteUser(id).subscribe(res => {
         this.isLoading = false;
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(
           () => {

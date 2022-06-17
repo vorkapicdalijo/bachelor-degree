@@ -4,7 +4,7 @@
         <mat-icon routerLink="/login" routerLinkActive="router-link-active" *ngIf="!isAuthenticated" class="icon-login">login</mat-icon>
         <!-- <mat-icon *ngIf="isAuthenticated" (click)="logout()" class="icon-logout">logout</mat-icon> -->
         <div *ngIf="isAuthenticated">
-            <ngx-avatar bgColor="blue" [textSizeRatio]="2" [name]="userName" [round]="false" cornerRadius="7" class="avatar" [mat-menu-trigger-for]="menu"></ngx-avatar>
+            <ngx-avatars bgColor="blue" [textSizeRatio]="2" [name]="userName" [round]="false" cornerRadius="7" class="avatar" [mat-menu-trigger-for]="menu"></ngx-avatars>
 
         </div>
 

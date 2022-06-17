@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription, take } from 'rxjs';
 import { ErrorInterceptor } from '../interceptors/error.interceptor';
 import { MaterialModule } from '../material/material.module';
 import { AuthService } from '../services/auth.service';
@@ -10,6 +11,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  $sub: Subscription;
   isAuthenticated = false;
   user: any;
   userName: string = '';
@@ -21,7 +23,7 @@ export class HeaderComponent implements OnInit {
     
     //this.isAuthenticated = this.authService.isLoggedIn();
 
-    this.authService.user.subscribe(user => {
+    this.authService.user.pipe(take(1)).subscribe(user => {
       if(user != null){
         this.user = JSON.parse(localStorage.getItem('user') || '{}');
         this.userName = this.user.user_name;

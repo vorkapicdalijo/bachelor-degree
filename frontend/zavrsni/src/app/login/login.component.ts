@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
+import { Subscriber, Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,7 +10,9 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  $sub: Subscription;
+
   loginForm: FormGroup;
   loading: false;
   submitted = false;
@@ -38,6 +41,10 @@ export class LoginComponent implements OnInit {
     
   }
 
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+  }
+
   openDialog() {
     const dialogRef = this.dialog.open(LoginDialog, {
       panelClass: 'login-dialog-container',
@@ -49,7 +56,7 @@ export class LoginComponent implements OnInit {
             },
       disableClose: true
     });
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub = dialogRef.afterClosed().subscribe(result => {
       
     });
   }
@@ -88,8 +95,8 @@ export class LoginDialog {
   }
 
   onSubmit() {
-    var email = this.loginForm.value.email;
-    var password = this.loginForm.value.password;
+    var email = this.loginForm.value.email!;
+    var password = this.loginForm.value.password!;
     this.authService.login(email, password).subscribe(res => {this.dialogRef.close();}, err => {this.error = 'Cannot find user with given username and password';})
 
   }

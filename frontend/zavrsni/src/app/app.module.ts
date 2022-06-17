@@ -11,7 +11,6 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LoginComponent, LoginDialog } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ExerciseAddDialog, ExerciseDeleteDialog, ExercisesComponent, ExerciseUpdateDialog, ProgressDialog } from './exercises/exercises.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +19,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { AvatarModule } from 'ngx-avatar';
+import { AvatarModule } from 'ngx-avatars';
 import { NameValidatorDirective } from './validators/name-validator.directive';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -44,7 +43,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     WorkoutDetailsComponent,
     StatisticsComponent,
     LoginComponent,
-    RegisterComponent,
     ExercisesComponent,
     ExerciseAddDialog,
     ExerciseDeleteDialog,

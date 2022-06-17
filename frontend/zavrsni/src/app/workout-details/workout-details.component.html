@@ -1,5 +1,6 @@
+<div class="main-container">
 <div class="title-container">
-    <h1 style="text-align: center; color:black; text-decoration: underline; letter-spacing: 5px;">Workouts</h1>
+    <h1 style="text-align: center; color:white; text-decoration: underline; letter-spacing: 5px;">Workouts</h1>
     <button mat-raised-button (click)="openAddDialog()">Create new workout</button>
 </div>
 
@@ -9,7 +10,7 @@
     </div>
 </div>
 <div style="margin-top:40px;" [hidden]="isLoading">
-    <mat-form-field appearance="standard" style="margin-left:200px; margin-bottom: -10px !important;">
+    <mat-form-field appearance="standard" style="margin-left:200px; margin-bottom: -10px !important;" color="primary">
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
     </mat-form-field>
@@ -96,4 +97,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table> -->
 
+</div>
 </div>

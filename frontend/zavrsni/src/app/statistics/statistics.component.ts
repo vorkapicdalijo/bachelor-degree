@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexMarkers, ApexPlotOptions, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import { Subscription } from 'rxjs';
 import { AppService } from '../services/app.service';
 
 
@@ -42,7 +43,10 @@ export type ChartOptions = {
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
+
+  $sub1: Subscription;
+  $sub2: Subscription;
 
   workoutsScheduleData: SchDataType[] = []
   dates : any[] = []
@@ -152,19 +156,24 @@ export class StatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appService.getScheduledWorkouts().subscribe(workouts => {
+    this.$sub1 = this.appService.getScheduledWorkouts().subscribe(workouts => {
       this.workoutsScheduleData = workouts;
 
       this.manageArrivalData(this.workoutsScheduleData);
     })
 
-    this.appService.getProgresses().subscribe(progresses => {
+    this.$sub2 = this.appService.getProgresses().subscribe(progresses => {
       this.progressesData = progresses;
 
       this.progressesData.sort(function(a,b) { return new Date(a.date).valueOf() - new Date(b.date).valueOf() });
 
       this.manageProgressesData(this.progressesData);
     })
+  }
+
+  ngOnDestroy(): void {
+    this.$sub1.unsubscribe();
+    this.$sub2.unsubscribe();
   }
 
   onChange(event:any) {

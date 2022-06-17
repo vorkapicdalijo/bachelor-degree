@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ChangeEventArgs, DropDownList, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { ActionEventArgs, AgendaService, DayService, DragEventArgs, EventSettingsModel, GroupModel, MonthService, PopupCloseEventArgs, PopupOpenEventArgs, WeekService, WorkWeek, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
+import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AppService } from '../services/app.service';
 
 
@@ -14,7 +16,8 @@ import { AppService } from '../services/app.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
+  $sub: Subscription;
 
   public isResize: boolean = false;
   public isDrag: boolean = false;
@@ -46,7 +49,7 @@ export class ScheduleComponent implements OnInit {
 
     this.appService.getWorkoutsByUserId();
 
-    this.appService.loadedUserWorkoutsSub.subscribe(workouts => {
+    this.$sub = this.appService.loadedUserWorkoutsSub.subscribe(workouts => {
       this.workouts = workouts;
 
       this.workouts.forEach(workout => {
@@ -60,9 +63,13 @@ export class ScheduleComponent implements OnInit {
     })
   }
 
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+  }
+
   private dataManager: DataManager = new DataManager({
-    url: 'http://localhost:8080/sch',
-    crudUrl: 'http://localhost:8080/sch/xd',
+    url: environment.baseUrl+'/sch',
+    crudUrl: environment.baseUrl+'/sch/xd',
     adaptor: new UrlAdaptor,
     crossDomain: true,
     headers: this.obj

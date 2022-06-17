@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,7 +31,7 @@ export interface ExerciseWorkout {
     ]),
   ],
 })
-export class WorkoutDetailsComponent implements OnInit {
+export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['workout_id', 'name', 'duration', 'complexity'];
 
@@ -43,6 +42,8 @@ export class WorkoutDetailsComponent implements OnInit {
 
   workouts: any[];
   $sub: Subscription;
+  $sub1: Subscription;
+  $sub2: Subscription;
 
   workoutToBeAdded: any;
 
@@ -80,9 +81,12 @@ export class WorkoutDetailsComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource(this.workouts);
    
-  })
-
-    
+  })    
+  }
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+    //this.$sub1.unsubscribe();
+    //this.$sub2.unsubscribe();
   }
 
   applyFilter(filterValue: any) {
@@ -120,7 +124,7 @@ export class WorkoutDetailsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.$sub1 = dialogRef.afterClosed().subscribe(result => {
       
 
       if(result) {
@@ -129,7 +133,7 @@ export class WorkoutDetailsComponent implements OnInit {
         let user = this.authService.getUserFromLocalStorage();
         this.workoutToBeAdded.user_id = user.user_id;
         this.workoutToBeAdded.exercises=JSON.stringify(this.workoutToBeAdded.exercises);
-        this.appService.insertWorkout(this.workoutToBeAdded).subscribe(res => {
+        this.$sub2 = this.appService.insertWorkout(this.workoutToBeAdded).subscribe(res => {
           this.isLoading = false;
 
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
@@ -148,7 +152,7 @@ export class WorkoutDetailsComponent implements OnInit {
   templateUrl: './dialogs/workout-add-dialog.component.html',
   styleUrls: ['./dialogs/workout-add-dialog.component.css']
 })
-export class WorkoutAddDialog implements OnInit {
+export class WorkoutAddDialog implements OnInit, OnDestroy {
 
   $sub: Subscription;
   exercisesLoaded: Exercise[] = []
@@ -179,6 +183,10 @@ export class WorkoutAddDialog implements OnInit {
     this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
       this.exercisesLoaded = exercises;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
   }
 
   onNoClick(): void {
