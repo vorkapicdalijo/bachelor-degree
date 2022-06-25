@@ -89,8 +89,6 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.$sub.unsubscribe();
-    //this.$sub1.unsubscribe();
-    //this.$sub2.unsubscribe();
   }
 
   openDeleteDialog(id:number, name:string) {

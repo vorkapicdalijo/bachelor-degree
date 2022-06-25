@@ -122,6 +122,13 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
       },
       position: {top: '60px'}
     });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(
+        () => {
+          this.router.navigate(['/users']);
+        }
+      )
+    })
   }
 
   openEditDialog(user: User) {
