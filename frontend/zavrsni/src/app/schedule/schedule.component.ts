@@ -30,10 +30,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     Authorization:'Bearer '+this.user.access_token
   }]
 
+  set: any[] = [];
+
   workouts: any[] = [];
   workoutNames: string[] = [];
   form: FormGroup;
-  objarr: Object[] = []
+  objarr: any[] = []
+
+  selectedWorkout: any = null;
 
   public fields: Object = {text:'name', value:'id'}
   showWorkoutInfo = false;
@@ -136,6 +140,31 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onChange(e: ChangeEventArgs) {
     if (e.value) {
       this.showWorkoutInfo = true;
+      for(let el of this.workouts) {
+        if (el.name == e.value) {
+          this.selectedWorkout = el;
+          break;
+        }
+      }
+      const exercises = JSON.parse(this.selectedWorkout.exercises);
+      this.set = [];
+      let ex:any = {
+        name:"",
+        weight:"",
+        sets:0,
+        reps:0
+      };
+      for(let el of exercises) {
+        ex = {}
+
+        ex.name = el.exercise_loaded.name;
+        ex.weight = el.weight;
+        ex.sets = el.sets;
+        ex.reps = el.reps;
+
+        this.set.push(ex);
+      }
+
     }
     else 
       this.showWorkoutInfo = false;

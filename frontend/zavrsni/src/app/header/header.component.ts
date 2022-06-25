@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, take } from 'rxjs';
 import { ErrorInterceptor } from '../interceptors/error.interceptor';
 import { MaterialModule } from '../material/material.module';
@@ -21,13 +22,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     
-    //this.isAuthenticated = this.authService.isLoggedIn();
+    this.isAuthenticated = this.authService.isLoggedIn();
 
-    this.authService.user.pipe(take(1)).subscribe(user => {
+    this.authService.user.subscribe(user => {
       if(user != null){
         this.user = JSON.parse(localStorage.getItem('user') || '{}');
         this.userName = this.user.user_name;
         this.userRole = this.user.role;
+
+        if (user.access_token != null) {
+          let helper = new JwtHelperService();
+          let timeout = helper.getTokenExpirationDate(user.access_token)!.valueOf() - new Date().valueOf();
+
+          this.authService.expirationCounter(timeout);
+        }
 
         this.isAuthenticated = true;
       }

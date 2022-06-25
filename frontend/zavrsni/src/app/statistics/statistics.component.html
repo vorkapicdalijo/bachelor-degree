@@ -1,8 +1,13 @@
-<div>
-  <h1 style="text-align: center;">Statistics</h1>
-</div>
-<div class="grid-container">
-  <div class="grid-container-inner">
+<div style="width:100%; min-height:93%; background-image: url('../../assets/img/stat_img.jpg');">
+  <div>
+    <h1 style="font-family: 'crack'; font-size:3.5em; text-align: center; margin-top:0px; padding-top:20px; font-weight: normal; color:white;">Statistics</h1>
+  </div>
+
+  <div [hidden]="!isLoading" style="width: 100%; margin:auto;">
+    <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
+  </div>
+  <div class="grid-container">
+    <div class="grid-container-inner">
       <div class="exercise-container">
         <h2 style="text-align: center;">Exercise progression</h2>
         <mat-form-field appearence="outline" class="input-wrapper">
@@ -13,9 +18,9 @@
         </mat-form-field>
         <button mat-raised-button color="primary" [disabled]="!selectedExercise" (click)="showGraph()" style="width: 30%; margin:auto; margin-bottom:20px;">Get insight</button>
       </div>
-      <div *ngIf="showGraphBool">
+      <div *ngIf="showGraphBool" style="background-color:white;">
         <div id="lineChart">
-          <h3 style="text-align: center;">{{selectedExercise}} progression</h3>
+          <h2 style="text-align: center;">{{selectedExercise}} progression</h2>
           <apx-chart
             [series]="lineChartOptions.series"
             [chart]="lineChartOptions.chart"
@@ -27,23 +32,44 @@
           ></apx-chart>
         </div>
       </div>
-      <div>
-        <div id="barChart">
-          <h2 style="text-align:center">Weekly arrival count</h2>
-          <apx-chart
-            [series]="barChartOptions.series"
-            [chart]="barChartOptions.chart"
-            [yaxis]="barChartOptions.yaxis"
-            [xaxis]="barChartOptions.xaxis"
-            [labels]="barChartOptions.labels"
-            [stroke]="barChartOptions.stroke"
-            [plotOptions]="barChartOptions.plotOptions"
-            [markers]="barChartOptions.markers"
-            [fill]="barChartOptions.fill"
-          ></apx-chart>
-        </div>
-      </div>
     </div>
+  </div>
+  <div class="grid-container-inner2">
+    <div style="background-color:white;">
+    <div id="barChart">
+      <h2 style="text-align:center">Weekly arrival count</h2>
+      <apx-chart
+        [series]="barChartOptions.series"
+        [chart]="barChartOptions.chart"
+        [yaxis]="barChartOptions.yaxis"
+        [xaxis]="barChartOptions.xaxis"
+        [labels]="barChartOptions.labels"
+        [stroke]="barChartOptions.stroke"
+        [plotOptions]="barChartOptions.plotOptions"
+        [markers]="barChartOptions.markers"
+        [fill]="barChartOptions.fill"
+      ></apx-chart>
+    </div>
+    </div>
+    <div style="background-color:white;">
+      <h2 style="text-align:center; ">Average Workout duration</h2>
+      <div id="gaugeChart">
+        <apx-chart
+          [series]="gaugeChartOptions.series"
+          [chart]="gaugeChartOptions.chart"
+          [plotOptions]="gaugeChartOptions.plotOptions"
+          [labels]="gaugeChartOptions.labels"
+          [fill]="gaugeChartOptions.fill"
+          [stroke]="gaugeChartOptions.stroke"
+        ></apx-chart>
+      </div>
+      <!-- <div style=" height:100%; display:flex; flex-direction:column; justify-content: center; align-items: stretch;">
+        <h1 style="text-align:center; margin-bottom: 10px; ">Average Workout duration</h1>
+        <h1 style="text-align:center; color:gray;">{{averageDuration}} minutes !</h1>
+        <p style="text-align:center">From {{userWorkoutsCount}} workouts</p>
+      </div> -->
+    </div>
+</div>
 </div>
 
 

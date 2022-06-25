@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexMarkers, ApexPlotOptions, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
+import { Workout } from '../models/workout';
 import { AppService } from '../services/app.service';
+import { AuthService } from '../services/auth.service';
 
 
 export interface SchDataType  {
@@ -47,6 +49,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   $sub1: Subscription;
   $sub2: Subscription;
+  $sub3: Subscription;
+
+  userWorkouts: Workout[] = [];
+  userWorkoutsCount: number;
+  averageDuration: number;
+
+  isLoading: boolean = false;
 
   workoutsScheduleData: SchDataType[] = []
   dates : any[] = []
@@ -70,71 +79,11 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   @ViewChild("lineChart") lineChart: ChartComponent;
   public lineChartOptions: Partial<ChartOptions>;
 
+  @ViewChild("gaugeChart") chart: ChartComponent;
+  public gaugeChartOptions: Partial<ChartOptions>;
+
   constructor(private titleService: Title, private appService: AppService) {
     this.titleService.setTitle("Statistics");
-
-    this.barChartOptions = {
-      series: [
-        {
-          name: "Arrivals",
-          type: "column",
-          data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "line",
-        stacked: false
-      },
-      stroke: {
-        width: [0, 2, 5],
-        curve: "smooth"
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: "50%"
-        }
-      },
-
-      fill: {
-        opacity: [0.85, 0.25, 1],
-        gradient: {
-          inverseColors: false,
-          shade: "light",
-          type: "vertical",
-          opacityFrom: 0.85,
-          opacityTo: 0.55,
-          stops: [0, 100, 100, 100]
-        }
-      },
-      markers: {
-        size: 0
-      },
-      xaxis: {
-        type: "datetime",
-        title: {
-          text: "Weeks"
-        }
-      },
-      yaxis: {
-        title: {
-          text: "Arrivals"
-        },
-        min: 0
-      },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter: function(y: any) {
-            if (typeof y !== "undefined") {
-              return y.toFixed(0);
-            }
-            return y;
-          }
-        }
-      }
-    };
 
   }
 
@@ -156,11 +105,22 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.$sub1 = this.appService.getScheduledWorkouts().subscribe(workouts => {
       this.workoutsScheduleData = workouts;
 
       this.manageArrivalData(this.workoutsScheduleData);
     })
+
+
+    this.appService.getWorkoutsByUserId();
+    this.$sub3 = this.appService.loadedUserWorkoutsSub.subscribe(userWorkouts => {
+      this.userWorkouts = userWorkouts;
+
+      this.manageAverageWorkoutTime(this.userWorkouts);
+    })
+
 
     this.$sub2 = this.appService.getProgresses().subscribe(progresses => {
       this.progressesData = progresses;
@@ -168,6 +128,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       this.progressesData.sort(function(a,b) { return new Date(a.date).valueOf() - new Date(b.date).valueOf() });
 
       this.manageProgressesData(this.progressesData);
+
+      this.isLoading = false;
     })
   }
 
@@ -178,6 +140,64 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   onChange(event:any) {
     this.selectedExercise = event.value
+  }
+
+  manageAverageWorkoutTime(workouts: Workout[]) {
+    this.userWorkoutsCount = workouts.length;
+    let sum: number = 0;
+
+    workouts.forEach(workout => {
+      sum = sum + workout.duration
+    })
+
+    this.averageDuration = sum / this.userWorkoutsCount;
+    let durationArray:number[] = []
+    durationArray.push(this.averageDuration)
+
+    this.gaugeChartOptions = {
+      series: durationArray,
+      chart: {
+        height: 350,
+        type: "radialBar",
+        offsetY: -10
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          dataLabels: {
+            name: {
+              fontSize: "16px",
+              color: undefined,
+              offsetY: 120
+            },
+            value: {
+              offsetY: 76,
+              fontSize: "22px",
+              color: undefined,
+              formatter: function(val:any) {
+                return val + " minutes !";
+              }
+            }
+          }
+        }
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "dark",
+          shadeIntensity: 0.15,
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 50, 65, 91]
+        }
+      },
+      stroke: {
+        dashArray: 4
+      },
+      labels: ["From "+ this.userWorkoutsCount.toString() +" workouts"]
+    };
   }
 
   showGraph() {
@@ -249,6 +269,22 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       },
       xaxis: {
         categories: this.exerciseDates
+      },
+      yaxis: {
+        labels: {
+          formatter: function(y: any) {
+            return y.toFixed(0);
+        }}
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter: function(y: any) {
+              return y.toFixed(0);
+            
+          }
+        }
       }
     };
   }
@@ -340,17 +376,19 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       yaxis: {
         title: {
           text: "Arrivals"
-        }
+        },
+        labels: {
+          formatter: function(y: any) {
+            return y.toFixed(0);
+        }}
       },
       tooltip: {
         shared: true,
         intersect: false,
         y: {
           formatter: function(y: any) {
-            if (typeof y !== "undefined") {
               return y.toFixed(0);
-            }
-            return y;
+            
           }
         }
       }

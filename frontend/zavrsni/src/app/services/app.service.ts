@@ -12,8 +12,11 @@ import { AuthService } from './auth.service';
 export class AppService {
   $fetchSub: Subscription;
   $fetchSub2: Subscription;
+  $fetchSub3: Subscription;
 
   loadedExercisesSub = new Subject<Exercise[]>();
+  loadedAdminExercisesSub = new Subject<Exercise[]>();
+
   loadedWorkoutsSub = new Subject<Workout[]>();
   loadedUserWorkoutsSub = new Subject<Workout[]>();
 
@@ -23,6 +26,25 @@ export class AppService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+  getUserExercises() {
+    let user = this.authService.getUserFromLocalStorage();
+    let userId = user.user_id;
+
+    this.$fetchSub3 = this.http.get<Exercise[]>(environment.baseUrl+environment.userexercises+`${userId}`)
+      .subscribe(userexercises => {
+        this.loadedExercisesSub.next(userexercises);
+      })
+  }
+
+  getAdminExercises() {
+    let adminId = 23
+
+    this.$fetchSub3 = this.http.get<Exercise[]>(environment.baseUrl+environment.userexercises+`${adminId}`)
+      .subscribe(userexercises => {
+        this.loadedAdminExercisesSub.next(userexercises);
+      })
+
+  }
 
   getExercises() {
     return this.http.get<Exercise[]>(environment.baseUrl + environment.exercises).subscribe(exercises => {
@@ -46,6 +68,11 @@ export class AppService {
         this.loadedUserWorkoutsSub.next(userWorkouts);
       })
 
+  }
+
+  deleteWorkout(id:number) {
+    return this.http.delete<Exercise>(environment.baseUrl+environment.workouts+`${id}`)
+     
   }
 
   deleteExercise(id:number) {

@@ -47,6 +47,8 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
   workoutToBeAdded: any;
 
+  workoutsExist: boolean = true;
+
   name: string;
   duration: number;
   complexity: string;
@@ -65,10 +67,13 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.appService.getWorkouts();
+    this.appService.getWorkoutsByUserId();
 
-    this.$sub = this.appService.loadedWorkoutsSub.subscribe(workouts => {
+    this.$sub = this.appService.loadedUserWorkoutsSub.subscribe(workouts => {
       this.workouts = workouts;
+      if (this.workouts.length == 0) {
+        this.workoutsExist = false;
+      }
 
       
     this.workouts.forEach(workout => {
@@ -87,6 +92,17 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     this.$sub.unsubscribe();
     //this.$sub1.unsubscribe();
     //this.$sub2.unsubscribe();
+  }
+
+  openDeleteDialog(id:number, name:string) {
+    const dialogRef = this.dialog.open(WorkoutDeleteDialog, {
+      panelClass: 'custom-dialog-container',
+      width: '400px',
+      data: {name: name,
+             id: id,
+            },
+      position: {top: '60px'}
+    });
   }
 
   applyFilter(filterValue: any) {
@@ -111,7 +127,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(WorkoutAddDialog, {
       panelClass: 'custom-dialog-container',
-      width: '800px',
+      width: '600px',
       //height: '900px',
       position: {top:'50px'},
       disableClose: true,
@@ -129,6 +145,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
       if(result) {
         this.isLoading = true;
+        this.workoutsExist = true;
         this.workoutToBeAdded = result;
         let user = this.authService.getUserFromLocalStorage();
         this.workoutToBeAdded.user_id = user.user_id;
@@ -178,11 +195,16 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.appService.getExercises();
+    this.appService.getUserExercises();
 
     this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
       this.exercisesLoaded = exercises;
     });
+    this.appService.getAdminExercises();
+    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
+      this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
+    })
+
   }
 
   ngOnDestroy(): void {
@@ -216,10 +238,6 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
     this.changeDetectorRefs.detectChanges();
     this.hasExercises = true
 
-  }
-
-  edit(exercise: any, n: number) {
-    this.editEx = true;
   }
 
   deleteExercise(exercise:any, n: number) {
@@ -257,4 +275,40 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
   }
 
 
+}
+
+@Component({
+  selector: 'app-workout-delete-dialog',
+  templateUrl: './dialogs/workout-delete-dialog.component.html'
+})
+export class WorkoutDeleteDialog implements OnDestroy {
+  $sub: Subscription;
+  isLoading : boolean = false;
+
+  constructor(private appService: AppService,
+              private router: Router,
+    public dialogRef: MatDialogRef<WorkoutDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {id:number,name:string},
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.$sub.unsubscribe();
+  }
+
+  deleteWorkout(id:number) {
+    this.isLoading = true;
+    this.$sub = this.appService.deleteWorkout(id).subscribe(res => {
+        this.isLoading = false;
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(
+          () => {
+            this.router.navigate(['/workouts']);
+        })
+      
+    });
+    this.dialogRef.close();
+  }
 }

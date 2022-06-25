@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject, ViewChild, OnDestroy} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, OnDestroy, Pipe, ElementRef} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatRadioChange } from '@angular/material/radio';
 import { MatTableDataSource } from '@angular/material/table';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Exercise } from '../models/exercise';
@@ -47,6 +48,11 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
   isLoading : boolean = false;
 
+  exercisesOption: string = ""
+  filter:string = ""
+
+  showUserExercises:boolean = true;
+
   showMore: boolean = false;
   exercise_id: number;
   name: string;
@@ -57,10 +63,15 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   updatedValues: Exercise;
 
   exercises: Exercise[];
+  loggedUser:any;
+  isAdmin:boolean = false;
+  userExerciseCount: number = 0;
 
+  checkExercises: Exercise[] = [];
   exerciseNamesObj: any[] = []
   exerciseNames: any[] = []
-  dataSource: MatTableDataSource<Exercise>;
+  dataSourceUser: MatTableDataSource<Exercise>;
+  dataSourceAdmin: MatTableDataSource<Exercise>;
 
   progression: ExerciseProgress = {
     name:'',
@@ -73,7 +84,8 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
   storedProgresses: ExerciseProgress[] = []
 
-  constructor(private router: Router,private appService: AppService, public dialog: MatDialog, private titleService:Title, private authService: AuthService) {
+  constructor(private router: Router,private appService: AppService, public dialog: MatDialog, private titleService:Title, private authService: AuthService,
+      private sanitizer: DomSanitizer) {
       this.titleService.setTitle("Exercises");
    }
 
@@ -81,12 +93,28 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.appService.getExercises()
-    
-    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
-      this.exercises = exercises;
 
-      this.dataSource = new MatTableDataSource(this.exercises)
+    this.loggedUser = this.authService.getUserFromLocalStorage();
+    if(this.loggedUser.role == "ROLE_ADMIN")
+      this.isAdmin = true;
+
+    this.appService.getAdminExercises()
+
+    
+    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
+      this.exercises = exercises
+      this.dataSourceAdmin = new MatTableDataSource(this.exercises.reverse())
+
+      this.appService.getUserExercises();
+
+    })
+
+    this.appService.getUserExercises();
+
+    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
+      this.exercises = this.exercises.concat(exercises)
+      this.dataSourceUser = new MatTableDataSource(exercises.reverse());
+      this.userExerciseCount = exercises.length;
       this.isLoading = false;
     })
 
@@ -108,9 +136,29 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     //this.$sub9.unsubscribe();
   }
 
-  applyFilter(filterValue: any) {
 
-    this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
+  public getSantizeUrl(url : string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+}
+
+  exercisesChange(event: MatRadioChange) {
+    if(event.value=="user") {
+      this.showUserExercises = true;
+    }
+    else {
+      this.showUserExercises = false;
+    }
+
+    this.filter = ""
+    this.dataSourceAdmin.filter = ""
+    this.dataSourceUser.filter = ""
+  }
+
+  applyFilter(filterValue: any) {
+    if(!this.showUserExercises)
+      this.dataSourceAdmin.filter = filterValue.target.value.trim().toLowerCase();
+    else
+      this.dataSourceUser.filter = filterValue.target.value.trim().toLowerCase();
   }
 
   openProgressDialog() {
@@ -293,13 +341,27 @@ export class ProgressDialog {
     this.dialogRef.close();
   }
 }
+
+export class ImageUploadModel {
+  Title: string;
+  Description: string;
+  ImageType: string;
+  Base64String: string;
+}
+
 @Component({
   selector: 'app-exercise-add-dialog',
   templateUrl: './dialogs/exercise-add-dialog.component.html',
   styleUrls: ['./dialogs/exercise-add-dialog.component.css']
 })
 export class ExerciseAddDialog {
-
+  validFile: boolean = false;
+  imageUploadModel: ImageUploadModel = {
+    Title: '',
+    Description: '',
+    ImageType: '',
+    Base64String: ''
+  };
   error = false;
   constructor(
     public dialogRef: MatDialogRef<ExerciseAddDialog>,
@@ -313,6 +375,31 @@ export class ExerciseAddDialog {
   invalidImage(url:string) {
     return !(/\.(jpg|jpeg|png|webp|avif|gif|svg).*$/.test(url));
   }
+
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file.type.split('/')[0] !== 'image') {
+      this.validFile = false;
+    }
+    else {
+      this.validFile = true;
+    }
+    this.imageUploadModel.Title = file.name;
+    this.imageUploadModel.ImageType = file.type.split('/')[1];
+
+    const myReader: FileReader = new FileReader();
+    myReader.onloadend = (e) => {
+      this.imageUploadModel.Base64String = myReader.result!.toString();
+
+      const body = JSON.stringify(this.imageUploadModel.Base64String).slice(1);
+      this.data.imageurl = body.slice(0,-1);
+    };
+    myReader.readAsDataURL(file);
+
+  }
+
+  
 
 }
 
@@ -353,6 +440,7 @@ export class ExerciseDeleteDialog implements OnDestroy {
     this.dialogRef.close();
   }
 }
+
   //////////////////////////////////////////////////////////
   @Component({
     selector: 'app-exercise-update-dialog',
@@ -360,10 +448,13 @@ export class ExerciseDeleteDialog implements OnDestroy {
     styleUrls: ['./dialogs/exercise-update-dialog.component.css']
   })
   export class ExerciseUpdateDialog implements OnInit {
-    
+
+    imageUrl: SafeUrl;
 
     constructor(private appService: AppService,
                 private router: Router,
+                private domSanitizer: DomSanitizer,
+                private el: ElementRef,
       public dialogRef: MatDialogRef<ExerciseUpdateDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
@@ -373,6 +464,22 @@ export class ExerciseDeleteDialog implements OnDestroy {
 
     ngOnInit(): void {
       this.oldData = this.data.exercise;
+      const im: HTMLImageElement = this.el.nativeElement.querySelector('#img');
+      im.src = this.oldData.imageurl;
+      
+      // const imageContent = atob(trimmedString);
+      // const buffer = new ArrayBuffer(imageContent.length);
+      // const view = new Uint8Array(buffer);
+
+      // for (let n = 0; n < imageContent.length; n++) {
+      //   view[n] = imageContent.charCodeAt(n);
+      // }
+      // const type = 'image/jpeg';
+      // const blob = new Blob([buffer], { type });
+      // const file = new File([blob], "", { lastModified: new Date().getTime(), type });
+
+      //(document.getElementById("img") as HTMLInputElement).src = string64;
+
       this.newData = {
         name: this.oldData.name,
         imageurl: this.oldData.imageurl,

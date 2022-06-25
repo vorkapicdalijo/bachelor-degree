@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { setTime } from '@syncfusion/ej2-angular-schedule';
 import { BehaviorSubject, delay, of, Subject, Subscription, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
@@ -75,15 +76,17 @@ export class AuthService {
     const expirationDate = helper.getTokenExpirationDate(token.access_token);
     const isExpired = helper.isTokenExpired(token.access_token);
 
-    this.expirationCounter(expirationDate);
+    let timeout = helper.getTokenExpirationDate(token.access_token)!.valueOf() - new Date().valueOf();
+
+    this.expirationCounter(timeout);
     
     this.router.navigateByUrl('/home');
   }
 
   logout() {
     this.tokenSub.unsubscribe();
-    localStorage.removeItem('user');
     this.user.next(null);
+    localStorage.removeItem('user');
     this.router.navigateByUrl('/login');
   }
 
@@ -93,7 +96,6 @@ export class AuthService {
       console.log('EXPIRED!!');
 
       this.logout();
-      this.router.navigate(["/login"]);
     });
   }
 

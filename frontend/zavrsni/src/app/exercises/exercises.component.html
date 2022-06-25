@@ -1,48 +1,117 @@
-<h1 style="text-align: center; color:black; text-decoration: underline; letter-spacing: 5px;">Exercises</h1>
+<div class="main-container">
+
 <div class="title-container">
+    <h2 style="font-family: 'crack'; color: white; font-size: 3.5em; text-align: center; margin: 0; text-shadow: 8px 8px 8px black; margin-top:20px; margin-bottom: 20px; font-weight: normal;">Exercises</h2>
+    
+    <div class="options">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="exercisesOption" (change)="exercisesChange($event)">
+            <mat-radio-button [checked]="true" value="user"><p style="font-weight:500;">My Exercises</p></mat-radio-button>
+            <mat-radio-button  value="default"><p style="font-weight:500;">Base Exercises</p></mat-radio-button>
+        </mat-radio-group>
+        <!-- <mat-radio-button *ngIf="isAdmin" [checked]="true" value="default"><p style="font-weight:500;">Base Exercises</p></mat-radio-button> -->
 
-    <button mat-raised-button (click)="openDialog()" style="margin-left: 15px;">Create new exercise</button>
-
-    <mat-form-field appearance="standard" style="margin-left:30px;">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-    </mat-form-field>
-
-    <button mat-raised-button (click)="openProgressDialog()" style="margin-left: 15px;" color="primary">Exercise progression</button>
-
+        <mat-form-field appearance="fill" style="margin-left:15px;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" [(ngModel)]="filter" #ctrl="ngModel">
+        </mat-form-field>
+    
+        <button mat-raised-button (click)="openDialog()" style="margin-left: 15px;">Create new exercise</button>
+    
+        <button mat-raised-button (click)="openProgressDialog()" style="margin-left: 15px;" color="primary">Exercise progression</button>
+    </div>
 </div>
 <mat-divider inset style="margin-top: 15px;"></mat-divider>
 
 
 
-<div id="container" class="grid-container" >
+<div id="container" class="grid-container">
     <div [hidden]="!isLoading">
         <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
     </div>
-    <div *ngFor="let exercise of this.dataSource.filteredData" [hidden]="isLoading || error">
-            <mat-card class="example-card">
-                <mat-card-title style="text-align: center;">{{exercise.name}}</mat-card-title>
-                <mat-divider inset style="margin-bottom: 10px;"></mat-divider>
-                <mat-card-content>
-                    <p style="white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis; text-align: center;"
-                    matTooltip={{exercise.description}} 
-                    matTooltipClass="description-tooltip">{{exercise.description}}</p>
-                </mat-card-content>
-                <mat-divider inset></mat-divider>
-                <img src="../../assets/img/abs.svg" alt="Pullups" class="image-pull" />
-                <mat-card-actions id="bottom">
-                    <mat-icon 
-                        matTooltip="Edit" 
-                        matTooltipPosition="above"
-                          class="icon" (click) = "openUpdateDialog(exercise)">edit_note</mat-icon>
-                    <mat-icon 
-                        matTooltip="Delete"
-                        matTooltipPosition="above"
-                            class="icon" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever</mat-icon>
-                </mat-card-actions>
-            </mat-card>
+    <div *ngFor="let exercise of this.dataSourceAdmin.filteredData" [hidden]="isLoading || error || showUserExercises">
+        <mat-card class="example-card mat-elevation-z15" *ngIf="!isLoading">
+            <mat-card-title style="background:rgba(0,0,0,0.1); padding:20px 20px; padding-left:30px; text-overflow: ellipsis;
+            overflow: hidden; white-space: nowrap; display:flex;flex-direction:row; justify-content: space-between;"><p style="width:70%; text-overflow: ellipsis;
+            overflow: hidden; margin:0;" 
+                matTooltip={{exercise.name}}
+                matTooltipClass="description-tooltip" 
+                >{{exercise.name}}</p>
+            <div>                    
+            <mat-icon
+                matTooltip="Edit" 
+                matTooltipPosition="above"
+                  class="icon" (click) = "openUpdateDialog(exercise)">edit_note</mat-icon>
+                  <mat-icon style="margin-left: 5px;"
+                matTooltip="Delete"
+                matTooltipPosition="above"
+                    class="icon material-icons-outlined" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever</mat-icon>
+            </div>
+        </mat-card-title>
+            <mat-card-content *ngIf="exercise.description">
+                <p style="white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; text-align: center; padding:0; margin-bottom:-10px; margin-left:5px; margin-right:5px;"
+                matTooltip={{exercise.description}} 
+                matTooltipClass="description-tooltip">{{exercise.description}}</p>
+            </mat-card-content>
+            <mat-card-content *ngIf="!exercise.description">
+                <p style="white-space: nowrap; color:rgba(0,0,0,0.3);
+                overflow: hidden;
+                text-overflow: ellipsis; text-align: center; padding:0; margin-bottom:-10px;"
+                matTooltip={{exercise.description}} 
+                matTooltipClass="description-tooltip">Description</p>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <div style="width:100%;height:5px;"></div>
+            <div style="margin-top:10px;">
+            <img class="image-pull"  [src]=getSantizeUrl(exercise.imageurl) />
+            </div>
+            <div style="background-color:rgba(0,0,0,0.1); width:100%;height:5px;"></div>
+        </mat-card>
+    </div>
+    <div *ngIf="this.userExerciseCount == 0 && !isLoading && showUserExercises" style="width:40%; margin-top:30px;">
+        <h4 style="font-family: 'Rubik Mono One', sans-serif; color: white; font-size: 2.5em; text-align: center; margin: 0; text-shadow: 4px 4px black;">Create your first Exercise! </h4>
+    </div>
+    <div *ngFor="let exercise of this.dataSourceUser.filteredData" [hidden]="isLoading || error || !showUserExercises">
+        <mat-card class="example-card mat-elevation-z15">
+            <mat-card-title style="background:rgba(0,0,0,0.1); padding:20px 20px; padding-left:30px; text-overflow: ellipsis;
+            overflow: hidden; white-space: nowrap; display:flex;flex-direction:row; justify-content: space-between;"><p style="width:70%; text-overflow: ellipsis;
+            overflow: hidden; margin:0;" 
+                matTooltip={{exercise.name}}
+                matTooltipClass="description-tooltip" 
+                >{{exercise.name}}</p>
+            <div>                    
+            <mat-icon
+                matTooltip="Edit" 
+                matTooltipPosition="above"
+                  class="icon" (click) = "openUpdateDialog(exercise)">edit_note</mat-icon>
+                  <mat-icon style="margin-left: 5px;"
+                matTooltip="Delete"
+                matTooltipPosition="above"
+                    class="icon material-icons-outlined" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever</mat-icon>
+            </div>
+        </mat-card-title>
+            <mat-card-content *ngIf="exercise.description">
+                <p style="white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; text-align: center; padding:0; margin-bottom:-10px; margin-left:5px; margin-right:5px;"
+                matTooltip={{exercise.description}} 
+                matTooltipClass="description-tooltip">{{exercise.description}}</p>
+            </mat-card-content>
+            <mat-card-content *ngIf="!exercise.description">
+                <p style="white-space: nowrap; color:rgba(0,0,0,0.3);
+                overflow: hidden;
+                text-overflow: ellipsis; text-align: center; padding:0; margin-bottom:-10px;"
+                matTooltip={{exercise.description}} 
+                matTooltipClass="description-tooltip">Description</p>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <div style="width:100%;height:5px;"></div>
+            <div style="margin-top:10px;">
+            <img class="image-pull"  [src]=getSantizeUrl(exercise.imageurl) />
+            </div>
+            <div style="background-color:rgba(0,0,0,0.1); width:100%;height:5px;"></div>
+        </mat-card>
     </div>
     <div *ngIf="error">
         <h1>ERROR: Exercise with that name already exists</h1>
@@ -69,3 +138,4 @@
 <!-- <div *ngIf="updatedValues">
    {{ updatedValues | json}}
 </div> -->
+</div>

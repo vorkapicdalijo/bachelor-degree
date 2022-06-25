@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { WorkoutAddDialog, WorkoutDetailsComponent } from './workout-details/workout-details.component';
+import { WorkoutAddDialog, WorkoutDeleteDialog, WorkoutDetailsComponent } from './workout-details/workout-details.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -50,6 +50,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     ProgressDialog,
     LoginDialog,
     WorkoutAddDialog,
+    WorkoutDeleteDialog,
     UserRegisterDialog,
     UserDeleteDialog,
     UserUpdateDialog,

@@ -10,12 +10,12 @@
             <mat-label>Description</mat-label>
             <textarea matInput [ngModel] ="data.exercise.description" (ngModelChange)="newData.description = $event"></textarea>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Image URL</mat-label>
-            <input matInput [ngModel] ="data.exercise.imageurl" (ngModelChange)="newData.imageurl= $event">
+        <mat-form-field appearance="outline" [hidden]>
+            <mat-label>Image</mat-label>
+            <input  matInput [disabled]="true" (ngModelChange)="newData.imageurl= $event">
             <!-- <mat-error *ngIf="imageUrl?.invalid">Enter valid image URL</mat-error> -->
         </mat-form-field>
-        <img src={{data.imageurl}}  [hidden]="invalidImage(data.imageurl)" class="exercise-image"/>
+        <img style="display:block; width: 280px; height: 186.66px;" id="img">
     </div>
 </div>
 <div mat-dialog-actions>

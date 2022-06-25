@@ -4,6 +4,7 @@ export const environment = {
   exercises: '/exercises/',
   workouts: '/workouts/',
   userworkouts: '/workouts/userworkouts/',
+  userexercises: '/exercises/userexercises/',
   users: '/users/',
   saveUser: '/user/save'
 };
