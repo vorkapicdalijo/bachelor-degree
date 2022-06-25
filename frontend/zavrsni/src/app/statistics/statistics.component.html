@@ -3,10 +3,10 @@
     <h1 style="font-family: 'crack'; font-size:3.5em; text-align: center; margin-top:0px; padding-top:20px; font-weight: normal; color:white;">Statistics</h1>
   </div>
 
-  <div [hidden]="!isLoading" style="width: 100%; margin:auto;">
+  <div *ngIf="isLoading" style="width: 100%; display:flex; justify-content: center;">
     <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
   </div>
-  <div class="grid-container">
+  <div class="grid-container" *ngIf="!isLoading">
     <div class="grid-container-inner">
       <div class="exercise-container">
         <h2 style="text-align: center;">Exercise progression</h2>
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  <div class="grid-container-inner2">
+  <div class="grid-container-inner2" *ngIf="!isLoading">
     <div style="background-color:white;">
     <div id="barChart">
       <h2 style="text-align:center">Weekly arrival count</h2>
@@ -63,11 +63,6 @@
           [stroke]="gaugeChartOptions.stroke"
         ></apx-chart>
       </div>
-      <!-- <div style=" height:100%; display:flex; flex-direction:column; justify-content: center; align-items: stretch;">
-        <h1 style="text-align:center; margin-bottom: 10px; ">Average Workout duration</h1>
-        <h1 style="text-align:center; color:gray;">{{averageDuration}} minutes !</h1>
-        <p style="text-align:center">From {{userWorkoutsCount}} workouts</p>
-      </div> -->
     </div>
 </div>
 </div>

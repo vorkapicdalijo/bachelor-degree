@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ChangeEventArgs, DropDownList, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
-import { ActionEventArgs, AgendaService, DayService, DragEventArgs, EventSettingsModel, GroupModel, MonthService, PopupCloseEventArgs, PopupOpenEventArgs, WeekService, WorkWeek, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { ChangeEventArgs, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { AgendaService, DayService, EventSettingsModel, MonthService, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';

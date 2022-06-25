@@ -11,11 +11,10 @@
             <textarea matInput [(ngModel)]="data.description"></textarea>
         </mat-form-field>
         <div class="img-container">
-        <button type="button" mat-raised-button (click)="fileInput.click()" style="margin-bottom:10px; width:80%">Choose Image</button>
-        <input  hidden (change)="onFileSelected($event)"  #fileInput type="file" id="file" accept="image/*">
-        <span style="text-align: center;">{{imageUploadModel.Title}}</span>
-        </div>
-        
+            <button type="button" mat-raised-button (click)="fileInput.click()" style="margin-bottom:10px; width:80%">Choose Image</button>
+            <input  hidden (change)="onFileSelected($event)"  #fileInput type="file" id="file" accept="image/*">
+            <span style="text-align: center;">{{imageUploadModel.Title}}</span>
+        </div> 
         <img id="preview">
     </div>
 </div>

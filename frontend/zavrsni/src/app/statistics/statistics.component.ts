@@ -4,7 +4,6 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, Ape
 import { Subscription } from 'rxjs';
 import { Workout } from '../models/workout';
 import { AppService } from '../services/app.service';
-import { AuthService } from '../services/auth.service';
 
 
 export interface SchDataType  {
@@ -49,7 +48,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   $sub1: Subscription;
   $sub2: Subscription;
-  $sub3: Subscription;
 
   userWorkouts: Workout[] = [];
   userWorkoutsCount: number;
@@ -115,7 +113,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
 
     this.appService.getWorkoutsByUserId();
-    this.$sub3 = this.appService.loadedUserWorkoutsSub.subscribe(userWorkouts => {
+    this.$sub2 = this.appService.loadedUserWorkoutsSub.subscribe(userWorkouts => {
       this.userWorkouts = userWorkouts;
 
       this.manageAverageWorkoutTime(this.userWorkouts);
@@ -313,7 +311,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
       if (!this.weeks.includes(startOfWeek))
         this.weeks.push(startOfWeek);
-      //this.dates.push(startOfWeek);
       this.dates.push(date.toLocaleDateString())
     })
     this.weeks.sort(function(a,b) { return new Date(a).valueOf() - new Date(b).valueOf() });
@@ -339,11 +336,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
           type: "column",
           data: this.workoutCount
         },
-        // {
-        //   name: "Arrivals",
-        //   type: "",
-        //   data: this.workoutCount
-        // }
       ],
       chart: {
         height: 350,

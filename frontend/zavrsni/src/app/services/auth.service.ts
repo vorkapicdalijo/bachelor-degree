@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { setTime } from '@syncfusion/ej2-angular-schedule';
 import { BehaviorSubject, delay, of, Subject, Subscription, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';

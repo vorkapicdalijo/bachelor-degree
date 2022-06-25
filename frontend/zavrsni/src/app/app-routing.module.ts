@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { WorkoutDetailsComponent } from './workout-details/workout-details.component';
 import { ScheduleComponent } from './schedule/schedule.component';

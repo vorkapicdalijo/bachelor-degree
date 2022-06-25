@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, OnDestroy, Pipe, ElementRef} from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ElementRef} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatTableDataSource } from '@angular/material/table';
@@ -35,14 +35,6 @@ export interface ExerciseProgress {
 export class ExercisesComponent implements OnInit, OnDestroy {
   $sub: Subscription;
   $sub1: Subscription;
-  $sub2: Subscription;
-  $sub3: Subscription;
-  $sub4: Subscription;
-  $sub5: Subscription;
-  $sub6: Subscription;
-  $sub7: Subscription;
-  $sub8: Subscription;
-  $sub9: Subscription;
 
   error: boolean = false;
 
@@ -126,16 +118,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.$sub.unsubscribe();
     this.$sub1.unsubscribe();
-    //this.$sub3.unsubscribe();
-    //this.$sub2.unsubscribe();
-    //this.$sub4.unsubscribe();
-    //this.$sub5.unsubscribe();
-    //this.$sub6.unsubscribe();
-    //this.$sub7.unsubscribe();
-    //this.$sub8.unsubscribe();
-    //this.$sub9.unsubscribe();
   }
-
 
   public getSantizeUrl(url : string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
@@ -177,7 +160,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         storedProgresses: this.storedProgresses
       }
     });
-    this.$sub3 = dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.progression.name = result.selected;
         this.progression.sets = result.sets;
@@ -194,7 +177,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         let user = this.authService.getUserFromLocalStorage();
         this.progression.user_id = user.user_id;
         
-        this.$sub4 = this.appService.insertProgress(this.progression).subscribe(res => {
+        this.appService.insertProgress(this.progression).subscribe(res => {
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
               this.router.navigate(['/exercises']);
@@ -227,7 +210,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
              description: this.description,
              exerciseNames: this.exerciseNames},
     });
-    this.$sub5 = dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       this.passedValues = result;
       if(this.passedValues) {
         const userData = this.authService.getUserFromLocalStorage();
@@ -237,7 +220,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
         let newExercise: Exercise = this.passedValues
         this.isLoading = true;
 
-        this.$sub6 = this.appService.insertExercise(newExercise)
+        this.appService.insertExercise(newExercise)
           .subscribe(res => {
             this.isLoading = false;
             this.router.navigateByUrl('/', {skipLocationChange: true}).then(
@@ -285,13 +268,13 @@ export class ExercisesComponent implements OnInit, OnDestroy {
              exerciseNames: this.exerciseNames},
       position: {top: '60px'}
     });
-    this.$sub7 = dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.isLoading = true;
         this.updatedValues = result;
         this.updatedValues.exercise_id = exercise.exercise_id;
         
-        this.$sub8 = this.appService.updateExercise(this.updatedValues.exercise_id, this.updatedValues).subscribe(res => {
+        this.appService.updateExercise(this.updatedValues.exercise_id, this.updatedValues).subscribe(res => {
           this.isLoading = false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
@@ -371,11 +354,6 @@ export class ExerciseAddDialog {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
-  invalidImage(url:string) {
-    return !(/\.(jpg|jpeg|png|webp|avif|gif|svg).*$/.test(url));
-  }
-
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -466,19 +444,6 @@ export class ExerciseDeleteDialog implements OnDestroy {
       this.oldData = this.data.exercise;
       const im: HTMLImageElement = this.el.nativeElement.querySelector('#img');
       im.src = this.oldData.imageurl;
-      
-      // const imageContent = atob(trimmedString);
-      // const buffer = new ArrayBuffer(imageContent.length);
-      // const view = new Uint8Array(buffer);
-
-      // for (let n = 0; n < imageContent.length; n++) {
-      //   view[n] = imageContent.charCodeAt(n);
-      // }
-      // const type = 'image/jpeg';
-      // const blob = new Blob([buffer], { type });
-      // const file = new File([blob], "", { lastModified: new Date().getTime(), type });
-
-      //(document.getElementById("img") as HTMLInputElement).src = string64;
 
       this.newData = {
         name: this.oldData.name,
@@ -491,7 +456,6 @@ export class ExerciseDeleteDialog implements OnDestroy {
     }
   
     updateExercise(id:number) {
-      //this.appService.updateExercise(id);
 
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(
         () => {
@@ -499,9 +463,5 @@ export class ExerciseDeleteDialog implements OnDestroy {
         }
       )
       this.dialogRef.close();
-    }
-
-    invalidImage(url:string) {
-      return !(/\.(jpg|jpeg|png|webp|avif|gif|svg).*$/.test(url));
     }
 }

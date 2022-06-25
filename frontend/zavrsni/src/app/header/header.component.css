@@ -1,7 +1,5 @@
-@font-face { font-family: earth; src: url('../../assets/earth.ttf'); } 
 @font-face { font-family: crack; src: url('../../assets/crack.ttf'); } 
-@font-face { font-family: metal; src: url('../../assets/metal.ttf'); } 
-@font-face { font-family: hardcore; src: url('../../assets/hardcore.otf'); } 
+
 .account-icon {
     transform: scale(1.5);
     margin-left: 5%;
@@ -17,11 +15,6 @@
     font-weight: 550;
     letter-spacing: 5px;
 }
-/* 
-.flexSpaceBetween {
-    justify-content: space-between;
-    width: 100% !important;
-} */
 
 mat-toolbar {
     background-color: rgba(255,255,255, 0.1);

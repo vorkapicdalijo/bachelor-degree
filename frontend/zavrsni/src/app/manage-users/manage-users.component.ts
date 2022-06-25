@@ -1,5 +1,4 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -31,10 +30,6 @@ const ELEMENT_DATA: any[] = [
 export class ManageUsersComponent implements OnInit, OnDestroy {
 
   $sub1: Subscription;
-  $sub2: Subscription;
-  $sub3: Subscription;
-  $sub4: Subscription;
-  $sub5: Subscription;
 
   loadedUsers: User[] = []
   displayedColumns = ['id', 'name', 'email','action'];
@@ -74,10 +69,6 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.$sub1.unsubscribe();
-    //this.$sub2.unsubscribe();
-    //this.$sub3.unsubscribe();
-    //this.$sub4.unsubscribe();
-    //this.$sub5.unsubscribe();
   }
 
   openRegisterDialog() {
@@ -101,7 +92,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.$sub2 = dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       this.passedValues = result;
       if(result) {
         this.isLoading=true;
@@ -110,7 +101,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         this.newUser.password = result.password;
         this.newUser.role = "ROLE_USER";
 
-        this.$sub3 = this.authService.saveUser(this.newUser).subscribe(res => {
+        this.authService.saveUser(this.newUser).subscribe(res => {
           this.isLoading=false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {
@@ -155,14 +146,14 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
       position: {top:'60px'}
     });
 
-    this.$sub4 = dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.isLoading = true;
         this.updatedValues = result;
         this.updatedValues.user_id = user.user_id;
         this.updatedValues.role = user.role;
 
-        this.$sub5 = this.authService.updateUser(user.user_id, this.updatedValues).subscribe(res => {
+        this.authService.updateUser(user.user_id, this.updatedValues).subscribe(res => {
           this.isLoading = false;
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(
             () => {

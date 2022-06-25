@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, take } from 'rxjs';
-import { ErrorInterceptor } from '../interceptors/error.interceptor';
-import { MaterialModule } from '../material/material.module';
 import { AuthService } from '../services/auth.service';
 
 @Component({

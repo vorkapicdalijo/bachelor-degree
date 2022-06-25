@@ -1,14 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import {  NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Exercise } from '../models/exercise';
-import { Workout } from '../models/workout';
 import { AppService } from '../services/app.service';
 import { AuthService } from '../services/auth.service';
 
@@ -219,8 +218,6 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
     this.exercise = {}
 
     this.exercise.weight = (exerciseForm.controls['weight'].value)
-
-    //console.log(this.exercise.weight)
     if (exerciseForm.controls['weight'].value == '' || exerciseForm.controls['weight'].value == null) {
       this.exercise.weight = "Bodyweight"
     }

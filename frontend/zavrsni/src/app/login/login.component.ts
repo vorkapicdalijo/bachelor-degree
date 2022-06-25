@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
-import { Subscriber, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -34,11 +34,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.openDialog();
-    // this.loginForm = new FormGroup({
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   password: new FormControl('', Validators.required)
-    // })
-    
   }
 
   ngOnDestroy(): void {
@@ -60,14 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       
     });
   }
-
-  // onSubmit() {
-  //   var email = this.loginForm.value.email;
-  //   var password = this.loginForm.value.password;
-  //   this.authService.login(email, password).subscribe(res => {}, err => {this.error = 'Cannot find user with given username and password';})
-
-  // }
-
 }
 
 @Component({
