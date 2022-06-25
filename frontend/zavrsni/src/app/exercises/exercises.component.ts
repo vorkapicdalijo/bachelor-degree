@@ -86,18 +86,12 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
 
-    this.loggedUser = this.authService.getUserFromLocalStorage();
-    if(this.loggedUser.role == "ROLE_ADMIN")
-      this.isAdmin = true;
-
     this.appService.getAdminExercises()
 
     
     this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
       this.exercises = exercises
       this.dataSourceAdmin = new MatTableDataSource(this.exercises.reverse())
-
-      this.appService.getUserExercises();
 
     })
 
