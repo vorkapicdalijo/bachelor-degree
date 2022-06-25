@@ -151,6 +151,8 @@ export class ExercisesComponent implements OnInit, OnDestroy {
       return rest
     })
     this.exerciseNamesObj.forEach(obj => {this.exerciseNames.push(obj.name)})
+
+    this.exerciseNames = [...new Set(this.exerciseNames)]
  
     const dialogRef = this.dialog.open(ProgressDialog, {
       panelClass: 'custom-dialog-container',
