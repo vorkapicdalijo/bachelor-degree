@@ -88,11 +88,11 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
     this.appService.getAdminExercises()
 
-    
     this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
       this.exercises = exercises
       this.dataSourceAdmin = new MatTableDataSource(this.exercises.reverse())
 
+      this.appService.getUserExercises();
     })
 
     this.appService.getUserExercises();

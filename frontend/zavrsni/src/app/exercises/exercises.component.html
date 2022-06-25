@@ -27,23 +27,11 @@
         <div *ngFor="let exercise of this.dataSourceAdmin.filteredData" [hidden]="isLoading || error || showUserExercises">
             <mat-card class="example-card mat-elevation-z15" *ngIf="!isLoading">
                 <mat-card-title style="background:rgba(0,0,0,0.1); padding:20px 20px; padding-left:30px; text-overflow: ellipsis;
-                overflow: hidden; white-space: nowrap; display:flex;flex-direction:row; justify-content: space-between;"><p style="width:70%; text-overflow: ellipsis;
+                overflow: hidden; white-space: nowrap; display:flex;flex-direction:row; justify-content: space-between;"><p style="width:90%; text-overflow: ellipsis;
                 overflow: hidden; margin:0;" 
                     matTooltip={{exercise.name}}
                     matTooltipClass="description-tooltip" 
                     >{{exercise.name}}</p>
-                <div>                    
-                    <mat-icon
-                        matTooltip="Edit" 
-                        matTooltipPosition="above"
-                        class="icon" (click) = "openUpdateDialog(exercise)">edit_note
-                    </mat-icon>
-                    <mat-icon style="margin-left: 5px;"
-                        matTooltip="Delete"
-                        matTooltipPosition="above"
-                            class="icon material-icons-outlined" (click) = "openDeleteDialog(exercise.exercise_id, exercise.name)">delete_forever
-                    </mat-icon>
-                </div>
                 </mat-card-title>
                 <mat-card-content *ngIf="exercise.description">
                     <p style="white-space: nowrap;

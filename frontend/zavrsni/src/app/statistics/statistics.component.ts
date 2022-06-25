@@ -174,7 +174,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
               fontSize: "22px",
               color: undefined,
               formatter: function(val:any) {
-                return val + " minutes !";
+                return val.toFixed(0) + " minutes !";
               }
             }
           }
