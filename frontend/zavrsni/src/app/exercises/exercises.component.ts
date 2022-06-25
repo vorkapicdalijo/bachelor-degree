@@ -246,6 +246,13 @@ export class ExercisesComponent implements OnInit, OnDestroy {
             },
       position: {top: '60px'}
     });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(
+        () => {
+          this.router.navigate(['/exercises']);
+        }
+      )
+    })
   }
 
   openUpdateDialog(exercise: Exercise) {
