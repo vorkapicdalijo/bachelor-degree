@@ -97,7 +97,7 @@ export class AppService {
   }
 
   getScheduledWorkouts() {
-    return this.http.post<any>(environment.baseUrl+'/sch',{})
+    return this.http.post<any>(environment.baseUrl+'/schedule',{})
   }
 
   getProgresses() {
