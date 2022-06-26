@@ -72,8 +72,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   private dataManager: DataManager = new DataManager({
-    url: environment.baseUrl+'/sch',
-    crudUrl: environment.baseUrl+'/sch/xd',
+    url: environment.baseUrl+'/schedule',
+    crudUrl: environment.baseUrl+'/schedule/crud',
     adaptor: new UrlAdaptor,
     crossDomain: true,
     headers: this.obj
