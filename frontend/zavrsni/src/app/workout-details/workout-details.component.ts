@@ -211,7 +211,8 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
     this.appService.getUserExercises();
 
     this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
-      this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
+      if (this.exercisesLoaded != exercises)
+        this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
     });
   }
 

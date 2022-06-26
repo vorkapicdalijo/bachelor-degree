@@ -37,7 +37,7 @@ export class AppService {
   }
 
   getAdminExercises() {
-    let adminId = 23
+    let adminId = 3
 
     this.$fetchSub3 = this.http.get<Exercise[]>(environment.baseUrl+environment.userexercises+`${adminId}`)
       .subscribe(userexercises => {

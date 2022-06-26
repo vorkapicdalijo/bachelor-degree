@@ -98,7 +98,8 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     this.appService.getUserExercises();
 
     this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
-      this.exercises = this.exercises.concat(exercises)
+      if (this.exercises != exercises)
+        this.exercises = this.exercises.concat(exercises)
       this.dataSourceUser = new MatTableDataSource(exercises.reverse());
       this.userExerciseCount = exercises.length;
       this.isLoading = false;
