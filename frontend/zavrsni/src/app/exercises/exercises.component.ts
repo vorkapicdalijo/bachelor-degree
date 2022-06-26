@@ -4,7 +4,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Exercise } from '../models/exercise';
 import { AppService } from '../services/app.service';
 import { AuthService } from '../services/auth.service';
@@ -88,7 +88,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
     this.appService.getAdminExercises()
 
-    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
+    this.$sub = this.appService.loadedAdminExercisesSub.pipe(take(1)).subscribe(exercises => {
       this.exercises = exercises
       this.dataSourceAdmin = new MatTableDataSource(this.exercises.reverse())
 
@@ -97,7 +97,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
     this.appService.getUserExercises();
 
-    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
+    this.$sub = this.appService.loadedExercisesSub.pipe(take(1)).subscribe(exercises => {
       if (this.exercises != exercises)
         this.exercises = this.exercises.concat(exercises)
       this.dataSourceUser = new MatTableDataSource(exercises.reverse());

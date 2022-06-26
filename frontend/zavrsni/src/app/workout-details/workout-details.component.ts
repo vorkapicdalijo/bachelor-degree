@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Exercise } from '../models/exercise';
 import { AppService } from '../services/app.service';
 import { AuthService } from '../services/auth.service';
@@ -59,6 +59,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
   workoutNames: any[] = []
   workoutNamesObj: any[] = []
+  exercisesLoaded: Exercise[] = [];
 
   constructor(private titleService: Title, private appService: AppService, private authService: AuthService, private router: Router, public dialog: MatDialog) {
     this.titleService.setTitle("Workouts");
@@ -81,7 +82,23 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
       }
       })
 
-    this.isLoading = false;
+      this.appService.getAdminExercises();
+      this.$sub = this.appService.loadedAdminExercisesSub.pipe(take(1)).subscribe(exercises => {
+        this.exercisesLoaded = exercises;
+  
+        this.appService.getUserExercises();
+      })
+  
+      this.appService.getUserExercises();
+  
+      this.$sub = this.appService.loadedExercisesSub.pipe(take(1)).subscribe(exercises => {
+        if (this.exercisesLoaded != exercises)
+          this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
+
+        this.isLoading = false;
+      });
+
+
 
     this.dataSource = new MatTableDataSource(this.workouts);
    
@@ -140,7 +157,8 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
         complexity: this.complexity,
         duration: this.duration,
         exercises: this.exercises,
-        workoutNames: this.workoutNames
+        workoutNames: this.workoutNames,
+        exercisesLoaded: this.exercisesLoaded
       },
     });
 
@@ -201,19 +219,19 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
   ngOnInit(): void {
     
 
-    this.appService.getAdminExercises();
-    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
-      this.exercisesLoaded = exercises;
+    // this.appService.getAdminExercises();
+    // this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
+    //   this.exercisesLoaded = exercises;
 
-      this.appService.getUserExercises();
-    })
+    //   this.appService.getUserExercises();
+    // })
 
-    this.appService.getUserExercises();
+    // this.appService.getUserExercises();
 
-    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
-      if (this.exercisesLoaded != exercises)
-        this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
-    });
+    // this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
+    //   if (this.exercisesLoaded != exercises)
+    //     this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
+    // });
   }
 
   ngOnDestroy(): void {

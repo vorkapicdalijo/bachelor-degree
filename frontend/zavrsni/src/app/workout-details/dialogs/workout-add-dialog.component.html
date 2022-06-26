@@ -31,7 +31,7 @@
             <mat-form-field appearance="fill" class="exercise-mat-input-wrapper">
                 <mat-label>Exercise</mat-label>
                 <mat-select id="exercise" name="exercise" required class="form-control" ngModel>
-                    <mat-option *ngFor="let exercise of exercisesLoaded" [value]="exercise">{{exercise.name}}</mat-option>
+                    <mat-option *ngFor="let exercise of data.exercisesLoaded" [value]="exercise">{{exercise.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="fill" class="exercise-weight-mat-input-wrapper">
