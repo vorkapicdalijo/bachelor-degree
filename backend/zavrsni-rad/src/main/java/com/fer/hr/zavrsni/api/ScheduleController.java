@@ -14,7 +14,7 @@ import java.util.Base64;
 import java.util.List;
 
 
-@RequestMapping("sch")
+@RequestMapping("schedule")
 @RestController
 public class ScheduleController {
 
@@ -27,7 +27,7 @@ public class ScheduleController {
         this.userService = userService;
     }
 
-    @PostMapping("/xd")
+    @PostMapping("/crud")
     public String insertSch(@RequestBody Schedule schedule, @RequestHeader("Authorization") String access_token) {
         Base64.Decoder decoder = Base64.getUrlDecoder();
         access_token = access_token.replace("Bearer ", "");
