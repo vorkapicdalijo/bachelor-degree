@@ -82,21 +82,21 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
       }
       })
 
-      this.appService.getAdminExercises();
-      this.$sub = this.appService.loadedAdminExercisesSub.pipe(take(1)).subscribe(exercises => {
-        this.exercisesLoaded = exercises;
-  
-        this.appService.getUserExercises();
-      })
-  
-      this.appService.getUserExercises();
-  
-      this.$sub = this.appService.loadedExercisesSub.pipe(take(1)).subscribe(exercises => {
-        if (this.exercisesLoaded != exercises)
-          this.exercisesLoaded = this.exercisesLoaded.concat(exercises);
+      this.appService.getAdminExercises()
 
+    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
+      this.exercisesLoaded = exercises
+
+      this.appService.getUserExercises();
+    })
+
+    this.appService.getUserExercises();
+
+    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
+        this.exercisesLoaded = this.exercisesLoaded.concat(exercises)
+        this.exercisesLoaded = this.exercisesLoaded.filter((v,i,a)=>a.findIndex(v2=>(v2.name===v.name))===i).reverse();
         this.isLoading = false;
-      });
+    })  
 
 
 

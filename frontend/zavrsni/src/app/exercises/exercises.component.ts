@@ -88,7 +88,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
     this.appService.getAdminExercises()
 
-    this.$sub = this.appService.loadedAdminExercisesSub.pipe(take(1)).subscribe(exercises => {
+    this.$sub = this.appService.loadedAdminExercisesSub.subscribe(exercises => {
       this.exercises = exercises
       this.dataSourceAdmin = new MatTableDataSource(this.exercises.reverse())
 
@@ -97,12 +97,13 @@ export class ExercisesComponent implements OnInit, OnDestroy {
 
     this.appService.getUserExercises();
 
-    this.$sub = this.appService.loadedExercisesSub.pipe(take(1)).subscribe(exercises => {
-      if (this.exercises != exercises)
+    this.$sub = this.appService.loadedExercisesSub.subscribe(exercises => {
         this.exercises = this.exercises.concat(exercises)
-      this.dataSourceUser = new MatTableDataSource(exercises.reverse());
-      this.userExerciseCount = exercises.length;
-      this.isLoading = false;
+        this.dataSourceUser = new MatTableDataSource(exercises.reverse());
+        this.userExerciseCount = exercises.length;
+
+        this.exercises = this.exercises.filter((v,i,a)=>a.findIndex(v2=>(v2.name===v.name))===i).reverse();
+        this.isLoading = false;
     })
 
     this.$sub1 =  this.appService.getProgresses().subscribe(res => {
