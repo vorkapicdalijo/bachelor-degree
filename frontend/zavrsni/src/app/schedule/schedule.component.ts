@@ -146,7 +146,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           break;
         }
       }
-      const exercises = JSON.parse(this.selectedWorkout.exercises);
+      const exercises = this.selectedWorkout.exercises;
       this.set = [];
       let ex:any = {
         name:"",

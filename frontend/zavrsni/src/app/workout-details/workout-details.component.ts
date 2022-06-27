@@ -235,7 +235,7 @@ export class WorkoutAddDialog implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.$sub.unsubscribe();
+    //this.$sub.unsubscribe();
   }
 
   onNoClick(): void {
