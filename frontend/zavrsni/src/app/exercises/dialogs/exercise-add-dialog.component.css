@@ -8,3 +8,10 @@
     width:300px;
     height:200px;
 }
+
+.img-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

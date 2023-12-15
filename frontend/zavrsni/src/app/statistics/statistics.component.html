@@ -1,1 +1,73 @@
-<p>statistics works!</p>
+<div style="width:100%; min-height:93%; background-image: url('../../assets/img/stat_img.jpg');">
+  <div>
+    <h1 style="font-family: 'crack'; font-size:3.5em; text-align: center; margin-top:0px; padding-top:20px; font-weight: normal; color:white;">Statistics</h1>
+  </div>
+
+  <div *ngIf="isLoading" style="width: 100%; display:flex; justify-content: center;">
+    <img src="../../assets/img/Bars-1s-200px (1).svg" alt="image">
+  </div>
+  <div class="grid-container" *ngIf="!isLoading">
+    <div class="grid-container-inner">
+      <div class="exercise-container">
+        <h2 style="text-align: center;">Exercise progression</h2>
+        <mat-form-field appearence="outline" class="input-wrapper">
+          <mat-label>Select exercise</mat-label>
+          <mat-select name="selected" (selectionChange)="onChange($event)">
+              <mat-option *ngFor="let ex of exerciseNames" value="{{ex}}" >{{ex}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="!selectedExercise" (click)="showGraph()" style="width: 30%; margin:auto; margin-bottom:20px;">Get insight</button>
+      </div>
+      <div *ngIf="showGraphBool" style="background-color:white;">
+        <div id="lineChart">
+          <h2 style="text-align: center;">{{selectedExercise}} progression</h2>
+          <apx-chart
+            [series]="lineChartOptions.series"
+            [chart]="lineChartOptions.chart"
+            [xaxis]="lineChartOptions.xaxis"
+            [dataLabels]="lineChartOptions.dataLabels"
+            [grid]="lineChartOptions.grid"
+            [stroke]="lineChartOptions.stroke"
+            [title]="lineChartOptions.title"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-container-inner2" *ngIf="!isLoading">
+    <div style="background-color:white;">
+    <div id="barChart">
+      <h2 style="text-align:center">Weekly arrival count</h2>
+      <apx-chart
+        [series]="barChartOptions.series"
+        [chart]="barChartOptions.chart"
+        [yaxis]="barChartOptions.yaxis"
+        [xaxis]="barChartOptions.xaxis"
+        [labels]="barChartOptions.labels"
+        [stroke]="barChartOptions.stroke"
+        [plotOptions]="barChartOptions.plotOptions"
+        [markers]="barChartOptions.markers"
+        [fill]="barChartOptions.fill"
+      ></apx-chart>
+    </div>
+    </div>
+    <div style="background-color:white;">
+      <h2 style="text-align:center; ">Average Workout duration</h2>
+      <div id="gaugeChart">
+        <apx-chart
+          [series]="gaugeChartOptions.series"
+          [chart]="gaugeChartOptions.chart"
+          [plotOptions]="gaugeChartOptions.plotOptions"
+          [labels]="gaugeChartOptions.labels"
+          [fill]="gaugeChartOptions.fill"
+          [stroke]="gaugeChartOptions.stroke"
+        ></apx-chart>
+      </div>
+    </div>
+</div>
+</div>
+
+
+
+
+  

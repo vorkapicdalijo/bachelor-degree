@@ -1,0 +1,23 @@
+html, body {
+    overflow: hidden;
+}
+
+.home-picture {
+    max-height:90%;
+    background-color: black;
+    float: left;
+}
+
+img {
+    margin: 0;
+    padding: 0;
+    display: block;
+    max-width: 100%;
+    max-height: 70%;
+  }
+
+  .login-picture {
+    height: 93%;
+    min-width: 100%;
+    background: url("../../assets/img/4722381.jpg")
+  }

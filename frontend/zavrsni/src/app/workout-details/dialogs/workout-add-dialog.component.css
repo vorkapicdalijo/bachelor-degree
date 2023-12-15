@@ -1,0 +1,125 @@
+.workout-div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+}
+
+.exercises {
+    overflow-y: auto;
+}
+
+.exercise {
+    font-size: 13px;
+}
+
+
+::ng-deep .workout-mat-input-wrapper{
+    width: 250px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+  ::ng-deep .workout-duration-mat-input-wrapper{
+    width: 110px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+  ::ng-deep .workout-complexity-mat-input-wrapper{
+    width: 135px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+::ng-deep .exercise-mat-input-wrapper{
+    width:175px !important;
+    margin-right: 10px;
+  }
+
+::ng-deep .exercise-number-mat-input-wrapper{
+    width: 75px !important;
+    margin-right: 10px;
+}
+
+::ng-deep .exercise-weight-mat-input-wrapper{
+    width: 100px !important;
+    margin-right: 10px;
+}
+
+::ng-deep .mat-dialog-content {
+    overflow-y: hidden !important;
+}
+
+.actions {
+    bottom:0;
+}
+
+.button-flex {
+   vertical-align: middle;
+}
+
+.exercise-table {
+    max-height: 400px;
+    overflow: auto;
+}
+table {
+    width: 100%;
+}
+
+
+  .mat-dialog-content {
+    max-height: 80vh;
+  }
+
+  .table-icon:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+  }
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px   
+                rgba(0, 0, 0, 0.14), 0 3px 14px 2px 
+                rgba(0, 0, 0, 0.12);
+  
+    height: 45px;
+    background-color: white;
+    display: table;
+  }
+  
+  .cdk-drag-preview td {
+    flex-grow: 2;
+    font-size: 14px;
+    padding: 4px;
+    vertical-align: middle;
+  }
+
+  .cdk-drag-preview:active {
+    cursor:move;
+  }
+
+  .cdk-drag-placeholder {
+    background-color: #b3cccc;
+  }
+
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .cdk-drop-list-dragging .mat-row:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .mat-row {
+    cursor:grab
+  }
+  .mat-row:active {
+    cursor:grabbing
+  }
+
+

@@ -1,0 +1,56 @@
+<h1 mat-dialog-title style="text-align: center;">Enter new progress!</h1>
+<div mat-dialog-content>
+    <mat-form-field appearence="fill" class="input-wrapper">
+        <mat-label>Select exercise</mat-label>
+        <mat-select required name="selected" [(ngModel)]="data.selected" #selected="ngModel" (selectionChange)="onChange($event)">
+            <mat-option *ngFor="let ex of data.exercises" value="{{ex}}" >{{ex}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div style="margin-bottom:3%;" *ngIf="selected.valid && contains">
+        <p style="text-align: center;">Latest progress:</p>
+        <mat-divider style="margin:auto; margin-bottom:10px; width:70%;"></mat-divider>
+        <table style="width:100%;">
+            <tr style="text-align:center;">  
+                <td style="margin-right: 10px; text-align: left;">Date</td>
+                <td style="margin-right: 10px;">Weight</td>
+                <td style="margin-right: 10px;">Sets</td>
+                <td style="margin-right: 10px;">Reps</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td style="text-align: left;">{{latestProgress.date}}</td>
+                <td>{{latestProgress.weight == 'bodyweight' ? latestProgress.weight : latestProgress.weight + ' kg'}}</td>
+                <td>{{latestProgress.sets}}</td>
+                <td>{{latestProgress.reps}}</td>
+            </tr>
+        </table>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="progress-enter-container">
+        <p style="text-align: center;">New progress:</p>
+        <mat-form-field appearance="outline" class="calendar-input-wrapper">
+            <mat-label>Progress date</mat-label>
+            <input matInput [matDatepicker]="picker2" [(ngModel)]="data.date" name="date" #date="ngModel">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>  
+        <mat-form-field appearance="outline" class="progress-input-wrapper">
+            <mat-label>Weight</mat-label>
+            <input type="number" id="weight"  min="0" name="weight" matInput [(ngModel)]="data.weight" #weight="ngModel">
+            <span matSuffix>kg</span>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="progress-input-wrapper">
+            <mat-label>Sets</mat-label>
+            <input type="number" id="sets" required  min="0" name="sets" matInput [(ngModel)]="data.sets" #sets="ngModel">
+        </mat-form-field>
+        <mat-form-field appearance="outline"  class="progress-input-wrapper">
+            <mat-label>Reps</mat-label>
+            <input type="number" id="reps" required   min="0" name="reps"  matInput [(ngModel)]="data.reps" #reps="ngModel">
+        </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="data" color="primary" [disabled]="!selected.valid || !sets.valid || !reps.valid" cdkFocusInitial>Submit</button>
+</div>

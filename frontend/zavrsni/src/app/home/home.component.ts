@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { User } from '../models/user';
 
 @Component({
   selector: 'app-home',
@@ -9,40 +8,21 @@ import { User } from '../models/user';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  test: User[];
   postId: any;
   errorMessage: string;
+
+  username: string;
   
   constructor(private http: HttpClient, private titleService: Title) { 
     this.titleService.setTitle("Home");
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://localhost:8080/api/v1/person').subscribe(data => {
-        this.test = data;
-        
-    })   
-  }
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  posalji() {
-    this.http.post<any>('http://localhost:8080/api/v1/person',{name:"igore"}).subscribe({
-      next: data => {
-          this.postId = data;
-          console.log(data);
-      },
-      error: error => {
-          this.errorMessage = error.message;
-          console.error('There was an error!', error);
-      }
-  })
+    if(user) {
+      this.username = user.user_name;
+      this.username = this.username.split(" ")[0];
+    }
   }
-
-  update() {
-    this.http.put
-  }
-
-  delete() {
-    
-  }
-
 }

@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mat-card {
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    min-width: 20%;
+    min-height: 50%;
+    margin-top: 10%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    margin: 10px;
+}

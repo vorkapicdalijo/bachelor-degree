@@ -2,22 +2,23 @@
 <div mat-dialog-content>
     <div class="inner-div">
         <mat-form-field appearance="outline">
+            <mat-error *ngIf="!name.valid && data.name">Exercise name already exists</mat-error>
             <mat-label>Exercise name</mat-label>
-            <input id="name" name="name" required matInput [(ngModel)]="data.name" #name="ngModel">
+            <input id="name" maxlength="30" [nameValidator]="data.exerciseNames" name="name" required matInput [(ngModel)]="data.name" #name="ngModel">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Description</mat-label>
             <textarea matInput [(ngModel)]="data.description"></textarea>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Image URL</mat-label>
-            <input matInput [(ngModel)]="data.imageUrl">
-            <!-- <mat-error *ngIf="imageUrl?.invalid">Enter valid image URL</mat-error> -->
-        </mat-form-field>
-        <!-- <img src={{data.imageUrl}}  [hidden]="invalidImage(data.imageUrl)" class="exercise-image"/> -->
+        <div class="img-container">
+            <button type="button" mat-raised-button (click)="fileInput.click()" style="margin-bottom:10px; width:80%">Choose Image</button>
+            <input  hidden (change)="onFileSelected($event)"  #fileInput type="file" id="file" accept="image/*">
+            <span style="text-align: center;">{{imageUploadModel.Title}}</span>
+        </div> 
+        <img id="preview">
     </div>
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
-    <button mat-raised-button [mat-dialog-close]="data" color="primary" [disabled]="name.invalid" cdkFocusInitial>Submit</button>
+    <button mat-raised-button [mat-dialog-close]="data" color="primary" [disabled]="name.invalid || !validFile" cdkFocusInitial>Submit</button>
 </div>

@@ -1,0 +1,73 @@
+@font-face { font-family: crack; src: url('../../assets/crack.ttf'); } 
+
+#barChart {
+    min-width:50em;
+    max-width: 65em;
+    margin: auto;
+}
+
+#lineChart {
+  max-width: 75em;
+  margin:auto;
+}
+
+#gaugeChart {
+  margin: auto;
+  min-width:15em;
+  max-width: 25em;
+}
+
+  .grid-container {
+    padding: 0 .5rem;
+    grid-template-columns: auto;
+    display: grid;
+    width: 70%;
+    margin:auto;
+    grid-template-columns: [full-start] 1fr [full-end];
+  }
+
+  .grid-container-inner2 {
+    grid-column: full-start/full-end;
+    width:70%;
+    margin:auto;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: [full-start] 1fr [first-col] 1fr [full-end];
+    grid-gap: 1rem;
+  }
+  
+  .grid-container-inner>div{
+    border-radius: 3px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.6);
+    background-color: white;
+  }
+
+
+  .grid-container-inner {
+    grid-column: full-start/full-end;
+  
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: [full-start] 1fr [full-end];
+    grid-gap: 1rem;
+  }
+
+    .grid-container-inner2>div{
+      border-radius: 3px;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.6);
+
+    }
+
+
+  .exercise-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  ::ng-deep .input-wrapper{
+    width: 250px;
+    max-width: 250px !important;
+    margin:auto;
+    margin-bottom: 10px;
+  }

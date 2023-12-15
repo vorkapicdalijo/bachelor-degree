@@ -1,2 +1,62 @@
-<p>schedule works!</p>
-<ejs-schedule [eventSettings]='eventSettings'></ejs-schedule>
+<div style="width:100%; height:100px; background-image: url(../../assets/img/sch_img.jpg); display:flex; align-items: center; justify-content: center;">
+    <h2 style="font-family: 'crack'; color: white; font-size: 3.5em; text-align: center; margin: 0; text-shadow: 0 0 10px black; font-weight: normal;">Schedule</h2>
+</div>
+<ejs-schedule [eventSettings]='eventSettings' 
+            (actionComplete)='onActionBegin($event)'
+            (eventRendered)="onEventRendered($event)"
+            (dragStop)='onDragStop($event)'
+            timezone="Europe/Budapest"
+            (resizeStop)='onResizeStop($event)'
+            (popupOpen)='onPopupOpen($event)'> 
+    <ng-template #editorTemplate let-data>
+        <table class="custom-event-editor" width="100%">
+            <tbody>
+                <tr>
+                    <td class="e-textlabel">Choose Your Workout</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <form [formGroup]="form" novalidate>
+                        <ejs-dropdownlist #dropdown id='Subject' [fields]="fields" formControlName="subject" style="width:60%;"  class="e-field" data-name="Subject" placeholder='Workout'
+                            [dataSource]='objarr' (change)="onChange($event)">
+                        </ejs-dropdownlist>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <ejs-datetimepicker id="StartTime" class="e-field" data-name="StartTime"
+                            format="M/dd/yy h:mm a" [value]="dateParser(data.startTime || data.StartTime)">
+                        </ejs-datetimepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <ejs-datetimepicker id="EndTime" class="e-field" data-name="EndTime" format="M/dd/yy h:mm a"
+                            [value]='dateParser(data.endTime || data.EndTime)'></ejs-datetimepicker>
+                    </td>
+                </tr>
+            </tbody>
+            <div *ngIf="showWorkoutInfo" style="width: 100%; display: flex; flex-direction: column; justify-content:center">
+                <h3>Exercises</h3>
+                <div class="exercises-container">
+                    <table>
+                        <tr style="text-align:left; color: gray; font-weight: normal;">
+                            <th style="width:150px;">Name</th>
+                            <th style="text-align: center; width: 50px;">Sets</th>
+                            <th style="text-align: center; width: 50px;">Reps</th>
+                            <th style="text-align: center; width: 100px;">Weight</th>
+                        </tr>
+                        <tr *ngFor="let el of set">
+                            <td>{{el.name}}</td>
+                            <td style="text-align: center;">{{el.sets}}</td>
+                            <td style="text-align: center;">{{el.reps}}</td>
+                            <td style="text-align: center;">{{el.weight}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </table>
+    </ng-template>
+</ejs-schedule>

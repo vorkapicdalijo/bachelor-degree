@@ -1,28 +1,55 @@
+@font-face { font-family: crack; src: url('../../assets/crack.ttf'); } 
+
 .account-icon {
     transform: scale(1.5);
-    margin-left: 5px;
-    margin-right: 10px;
+    margin-left: 5%;
+    margin-right: 10%;
 }
 
 .title {
-    margin-left: 70px;
-    color: black;
-    font-family: 'Bebas Neue', cursive;
-    margin-top:5px;
-    font-size: 30px;
-    letter-spacing: 8px;
-    font-weight: bold;
+    margin-left: 10%;
+    color: white;
+    font-family: 'crack';
+    margin-top:10%;
+    font-size: 32px;
+    font-weight: 550;
+    letter-spacing: 5px;
 }
-/* 
-.flexSpaceBetween {
-    justify-content: space-between;
-    width: 100% !important;
-} */
 
 mat-toolbar {
-    background-color: rgba(145, 155, 159, 1)
+    background-color: rgba(255,255,255, 0.1);
+    height: 7% !important;;
 }
 
 body {
     background-color: black;
+}
+
+.icon-logout {
+    margin-right: 20px;
+    transform: rotate(180deg) scale(1.3);
+    color:white;
+}
+.icon-logout:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+  }
+
+.icon-login {
+    margin-right: 10px;
+    transform: scale(1.3);
+    color: white;
+}
+.icon-login:hover {
+    cursor: pointer;
+    transition: all .3s;
+    color: #bebebe;
+}
+
+.avatar {
+    cursor: pointer;
+}
+::ng-deep .avatar-content:hover {
+    background-color:darkblue !important;
 }

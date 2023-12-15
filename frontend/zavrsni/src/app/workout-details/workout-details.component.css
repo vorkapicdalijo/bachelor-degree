@@ -1,8 +1,83 @@
+@font-face { font-family: crack; src: url('../../assets/crack.ttf'); } 
+
 table {
-    width:80%;
+    width:100%;
+    margin-bottom: 15px;
 }
 
-/* .center{
-    margin-left: auto;
-    margin-right: auto;
-} */
+.table-div {
+  width: 80%;
+  margin: auto;
+}
+
+.mat-row:hover {
+    cursor: pointer;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+.example-element-detail {
+    overflow: hidden;
+    display:flex; 
+    flex-direction: column; 
+   
+}
+
+tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+
+.main-container {
+  min-height:93%;
+  overflow-x: hidden;
+  background-image: url('../../assets/img/workout_background.jpg');
+}
+
+
+
+.options {
+  background-color: rgba(255,255,255,0.8);
+  padding:15px;
+  padding-bottom: 5px;
+  margin: auto;
+  margin-bottom: -20px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+:host ::ng-deep .mat-form-field-flex {
+  padding-top: 5px !important;
+  padding-bottom: 2px !important;
+}
+
+.icon:hover {
+  cursor: pointer;
+  transition: all .3s;
+  color: #bebebe;
+}

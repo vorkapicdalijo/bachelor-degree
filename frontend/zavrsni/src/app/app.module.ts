@@ -4,21 +4,34 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { WorkoutDetailsComponent } from './workout-details/workout-details.component';
-import { ScheduleComponent } from './schedule/schedule.component';
+import { WorkoutAddDialog, WorkoutDeleteDialog, WorkoutDetailsComponent } from './workout-details/workout-details.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
-import { DayService, WeekService, WorkWeekService, MonthService, AgendaService } from '@syncfusion/ej2-angular-schedule';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { HttpClientModule } from '@angular/common/http';
-import { ExerciseAddDialog, ExerciseDeleteDialog, ExercisesComponent, ExerciseUpdateDialog } from './exercises/exercises.component';
+import { LoginComponent, LoginDialog } from './login/login.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ExerciseAddDialog, ExerciseDeleteDialog, ExercisesComponent, ExerciseUpdateDialog, ProgressDialog } from './exercises/exercises.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { RouterModule } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { AvatarModule } from 'ngx-avatars';
+import { NameValidatorDirective } from './validators/name-validator.directive';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { RecurrenceEditorAllModule, ScheduleAllModule, ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { ManageUsersComponent, UserDeleteDialog, UserUpdateDialog } from './manage-users/manage-users.component';
+import { UserRegisterDialog} from './manage-users/manage-users.component'
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { NgApexchartsModule } from 'ng-apexcharts';
+
 
 
 
@@ -28,29 +41,55 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HomeComponent,
     HeaderComponent,
     WorkoutDetailsComponent,
-    ScheduleComponent,
     StatisticsComponent,
     LoginComponent,
-    RegisterComponent,
     ExercisesComponent,
     ExerciseAddDialog,
     ExerciseDeleteDialog,
-    ExerciseUpdateDialog
+    ExerciseUpdateDialog,
+    ProgressDialog,
+    LoginDialog,
+    WorkoutAddDialog,
+    WorkoutDeleteDialog,
+    UserRegisterDialog,
+    UserDeleteDialog,
+    UserUpdateDialog,
+    NameValidatorDirective,
+    ScheduleComponent,
+    ManageUsersComponent
+    
   ],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    ScheduleModule,
-    ScheduleAllModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ScheduleModule,
+    DropDownListModule,
+    DatePickerModule,
+    AvatarModule,
+    DragDropModule,
+    ScheduleAllModule,
+    NgApexchartsModule,
+    RecurrenceEditorAllModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
-  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService],
+  exports: [RouterModule],
+  providers: [
+        AuthGuard,
+        {provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true},
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

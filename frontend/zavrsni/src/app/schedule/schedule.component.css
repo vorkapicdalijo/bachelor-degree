@@ -1,0 +1,11 @@
+@font-face { font-family: crack; src: url('../../assets/crack.ttf'); } 
+
+.exercise-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.e-schedule-dialog { 
+    width: 375px !important; 
+  } 

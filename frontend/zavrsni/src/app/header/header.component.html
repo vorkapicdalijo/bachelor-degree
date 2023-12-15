@@ -1,9 +1,21 @@
-<mat-toolbar class="flexSpaceBetween" >
-        <a routerLink="/home" routerLinkActive="router-link-active" style="text-decoration:none;"><span fxFlex="auto" class="title">My Workout Planner</span></a>
+<mat-toolbar class="flexSpaceBetween">
+        <a routerLink="/home" routerLinkActive="router-link-active" style="text-decoration:none;"><span fxFlex="auto" class="title">My    Workout    Planner</span></a>
         <span style="flex: 1 1 auto"></span>
-        <a routerLink="/login" routerLinkActive="router-link-active"><span>Login</span></a>
-        <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">arrow_drop_down</mat-icon>
-        <!-- <mat-icon class='material-icons-outlined account-icon'>Dalijo</mat-icon> -->
-        <span>Dalijo</span>
-        
+        <mat-icon routerLink="/login" routerLinkActive="router-link-active" *ngIf="!isAuthenticated" class="icon-login">login</mat-icon>
+        <div *ngIf="isAuthenticated">
+            <ngx-avatars bgColor="blue" [textSizeRatio]="2" [name]="userName" [round]="false" cornerRadius="7" class="avatar" [mat-menu-trigger-for]="menu"></ngx-avatars>
+        </div>
+
+    <mat-menu #menu="matMenu" style="margin-top: 15px;">
+        <button mat-menu-item [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" *ngIf="isAdmin()">
+            <mat-icon>manage_accounts</mat-icon>
+            <span>Manage users</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+
 </mat-toolbar>
+

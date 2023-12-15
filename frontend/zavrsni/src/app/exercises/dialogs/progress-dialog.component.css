@@ -1,0 +1,24 @@
+::ng-deep .input-wrapper{
+    width: 250px;
+    max-width: 250px !important;
+    margin:auto;
+  }
+
+  ::ng-deep .progress-input-wrapper{
+    width: 150px;
+    max-width: 150px !important;
+    margin:auto;
+  }
+
+  ::ng-deep .calendar-input-wrapper{
+    width: 200px;
+    max-width: 200px !important;
+    margin:auto;
+    margin-bottom:10px;
+  }
+
+.progress-enter-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
