@@ -1,2 +1,2 @@
 ### Process of a full-stack Workout planner web application developement
-### Bachelor degree paper - `final_work.docx`
+### Bachelor degree paper - `bachelor-degree.pdf`
